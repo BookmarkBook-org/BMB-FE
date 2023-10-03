@@ -5,11 +5,13 @@ import styled from "styled-components";
 function Header() {
   return (
     <HeaderWrapper>
-      <img
-        className="logoImg"
-        src="/assets/images/logo_white.svg"
-        alt="logoImg"
-      />
+      <Link to="/">
+        <img
+          className="logoImg"
+          src="/assets/images/logo_white.svg"
+          alt="logoImg"
+        />
+      </Link>
       <nav>
         <Link to="/" className="menu">
           홈
