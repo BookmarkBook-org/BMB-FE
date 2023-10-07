@@ -6,7 +6,6 @@ import BookmarkFolder from "./mypage/BookmarkFolder";
 import BookmarkList from "./mypage/BookmarkList";
 
 const Mypage = () => {
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     return (
         <div>
