@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const BookmarkMenu = () => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -19,6 +21,33 @@ const BookmarkMenu = () => {
     }
   };
 
+  const corsProxyUrl = ' https://cors.bridged.cc/';
+
+  useEffect(() => {
+    // URL이 변경될 때마다 타이틀 가져오기
+    const fetchTitle = async () => {
+      try {
+        console.log("url changed");
+        const response = await fetch(corsProxyUrl + url); // CORS 프록시를 사용하여 요청
+        if (response.ok) {
+          const html = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const pageTitle = doc.querySelector("title").textContent;
+          setTitle(pageTitle);
+        } else {
+          setTitle(""); // URL이 잘못된 경우 빈 타이틀로 설정
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    if (url) {
+      fetchTitle();
+    }
+  }, [url]);
+
   return (
     <Wrapper>
       <p>전체 북마크</p>
@@ -33,9 +62,17 @@ const BookmarkMenu = () => {
             <span className="modal-close" onClick={closeModal}>&times;</span>
             <h2>북마크 추가하기</h2>
             <p>URL 링크</p>
-            <input type="text"></input>
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
             <p>메모(북마크 제목)</p>
-            <input type="text"></input>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <button onClick={closeModal}>취소</button>
             <button>업로드하기</button>
           </div>
@@ -48,32 +85,32 @@ const BookmarkMenu = () => {
 export default BookmarkMenu;
 
 const Wrapper = styled.div`
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 배경 어두운 처리 */
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 배경 어두운 처리 */
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.modal-content {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
+  .modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
 
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
 `;
