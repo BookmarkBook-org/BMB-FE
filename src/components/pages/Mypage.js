@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
 import Title from "./mypage/Title";
 import UserInfo from "./mypage/UserInfo";
 import BookmarkMenu from "./mypage/BookmarkMenu";
@@ -8,14 +10,18 @@ import BookmarkList from "./mypage/BookmarkList";
 const Mypage = () => {
 
     return (
-        <div>
+        <Wrapper>
             <Title />
+            <hr />
             <UserInfo />
             <BookmarkMenu />
             <BookmarkFolder />
             <BookmarkList />
-        </div>
+        </Wrapper>
     );
 };
 
 export default Mypage;
+
+const Wrapper = styled.div`
+`
