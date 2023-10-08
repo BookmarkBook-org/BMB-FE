@@ -37,7 +37,42 @@ const items = [
     id: 7,
     name: '기획, IA',
     num: 8
-  }
+  },
+  {
+    id: 1,
+    name: '기획, IA',
+    num: 3
+  },
+  {
+    id: 2,
+    name: '개발',
+    num: 2
+  },
+  {
+    id: 3,
+    name: '디자인',
+    num: 3
+  },
+  {
+    id: 4,
+    name: '레퍼런스',
+    num: 4
+  },
+  {
+    id: 5,
+    name: '기획, IA',
+    num: 3
+  },
+  {
+    id: 6,
+    name: '기획, IA',
+    num: 3
+  },
+  {
+    id: 7,
+    name: '기획, IA',
+    num: 8
+  } 
 ];
 
 const BookmarkFolder = () => {
@@ -56,7 +91,7 @@ const BookmarkFolder = () => {
           <div key={index} className="list-item">
             <div className="item-info">
               <div className="item-name">{item.name}</div>
-              <div className="item-num">{item.num}</div>
+              <div className="item-num">총 {item.num}개의 북마크</div>
             </div>
             <img src="/assets/images/more_dot.png" className="more-button" onClick={() => toggleItem(index)} />
             {itemToggles[index] && (
@@ -80,33 +115,49 @@ const Wrapper = styled.div`
 }
 
 .list-item {
-  position: relative; /* 아이템 이름과 개수의 상대적인 위치 설정 */
-  width: calc(33.33% - 16px); /* 3개의 아이템을 가로로 정렬하고 간격을 조절 */
-  height: 100px; /* 원하는 높이로 조절 */
-  margin: 8px; /* 아이템 간격 조절 */
-  background-color: #ccc; /* 아이템 배경색 설정 */
+  position: relative; 
+  width: calc(33% - 16px); /* 3개의 아이템을 가로로 정렬하고 간격을 조절 */
+  height: 100px; 
+  margin: 8px; 
+  background-color: #ffffff; 
+  border-radius: 10px;
+  border: 1px solid #DDDDDD;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .item-info {
-  position: absolute; /* 드롭다운 메뉴가 열릴 때 위치를 고정 */
-  left: 16px; /* 왼쪽 여백 조절 */
+  position: absolute; 
+  left: 16px; 
   top: 50%; /* 상단 여백 조절 */
   transform: translateY(-50%); /* 수직 중앙 정렬 */
-  z-index: 1; /* 드롭다운 메뉴보다 위에 표시 */
+  z-index: 1; 
+  padding:10px;
+}
+.item-name{
+  padding-right: 24px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.item-num{
+  padding-right: 24px;
+  color: #6C757D;
+  font-size: 14px;
+  font-family: Pretendard Variable;
+  font-weight: 400;
+  line-height: 20px;
 }
 .more-button {
   position: absolute;
   height: 24px;
-  right: 0;
+  right: 10px;
   cursor: pointer;
 }
 
 .dropdown-container {
   position: absolute;
-  top: 100%; /* 드롭다운 메뉴가 아이템 아래쪽에 표시됨 */
-  right: 0;
-  z-index: 2; /* 드롭다운 메뉴의 z-index 값을 높임 */
+  top: 60%; /* 드롭다운 메뉴가 아이템 아래쪽 */
+  right: 3%;
+  z-index: 2; 
 }
 `
