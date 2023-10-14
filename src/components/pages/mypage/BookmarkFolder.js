@@ -93,7 +93,7 @@ const BookmarkFolder = () => {
               <div className="item-name">{item.name}</div>
               <div className="item-num">총 {item.num}개의 북마크</div>
             </div>
-            <img src="/assets/images/more_dot.png" className="more-button" onClick={() => toggleItem(index)} />
+            <img alt="folder" src="/assets/images/more_dot.png" className="more-button" onClick={() => toggleItem(index)} />
             {itemToggles[index] && (
               <div className="dropdown-container">
                 <FolderDropdown />
