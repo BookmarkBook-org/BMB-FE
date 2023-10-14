@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { setData } from "../bookmarkPage/actions";
 import styled from "styled-components";
+import getTitleAtUrl from "get-title-at-url";
 
 const BookmarkMenu = () => {
   // 모달창 부분
@@ -46,7 +47,7 @@ const BookmarkMenu = () => {
   };
 
   // 사이트 타이틀 가져오기
-  const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  // const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
   useEffect(() => {
     // URL이 변경될 때마다 타이틀 가져오기
@@ -54,16 +55,21 @@ const BookmarkMenu = () => {
       try {
         if (inputUrl) { // inputUrl이 정의되었을 때만 실행
           console.log("url changed");
-          const response = await fetch(corsProxyUrl + inputUrl); // CORS 프록시를 사용하여 요청
-          if (response.ok) {
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, "text/html");
-            const pageTitle = doc.querySelector("title").textContent;
-            setInputTitle(pageTitle);
-          } else {
-            setInputTitle(""); // URL이 잘못된 경우 빈 타이틀로 설정
-          }
+          // const response = await fetch(inputUrl); // CORS 프록시를 사용하여 요청
+          // if (response.ok) {
+          //   const html = await response.text();
+          //   const parser = new DOMParser();
+          //   const doc = parser.parseFromString(html, "text/html");
+          //   const pageTitle = doc.querySelector("title").textContent;
+          //   setInputTitle(pageTitle);
+          // } else {
+          //   setInputTitle(""); // URL이 잘못된 경우 빈 타이틀로 설정
+          // }
+          const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+          const url = "https://www.naver.com";
+          const inputTitle = await getTitleAtUrl(corsProxyUrl + url);
+          console.log(inputTitle);
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
