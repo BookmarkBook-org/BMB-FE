@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { setData } from "../bookmarkPage/actions";
 import styled from "styled-components";
-import getTitleAtUrl from "get-title-at-url";
 
 const BookmarkMenu = () => {
   // 모달창 부분
@@ -65,9 +64,9 @@ const BookmarkMenu = () => {
           // } else {
           //   setInputTitle(""); // URL이 잘못된 경우 빈 타이틀로 설정
           // }
-          const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-          const url = "https://www.naver.com";
-          const inputTitle = await getTitleAtUrl(corsProxyUrl + url);
+          // const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+          // const url = "https://www.naver.com";
+          // const inputTitle = await getTitleAtUrl(corsProxyUrl + url);
           console.log(inputTitle);
 
         }
@@ -119,6 +118,8 @@ const BookmarkMenu = () => {
 export default BookmarkMenu;
 
 const Wrapper = styled.div`
+padding-left: 170px;
+padding-right: 170px;
   .title{
     color: #212529;
     font-size: 36px;
@@ -128,7 +129,7 @@ const Wrapper = styled.div`
     word-wrap: break-word;
   }
   .add-button{
-    width: 200px;
+    width: 160px;
     margin: 10px;
     padding-right: 12px;
     padding-left: 12px;
@@ -140,7 +141,7 @@ const Wrapper = styled.div`
   }
   .add-button-font{
     color: #6610F2;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Pretendard Variable;
     font-weight: 700;
     align: center;

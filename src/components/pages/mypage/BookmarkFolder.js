@@ -109,6 +109,9 @@ const BookmarkFolder = () => {
 export default BookmarkFolder;
 
 const Wrapper = styled.div`
+padding-left: 170px;
+padding-right: 170px;
+
 .list-container {
   display: flex;
   flex-wrap: wrap;

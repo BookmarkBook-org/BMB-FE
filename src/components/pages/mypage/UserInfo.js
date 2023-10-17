@@ -53,17 +53,21 @@ const UserInfoMod = ({ onSave, nickname, introduction, onNicknameChange, onIntro
   };
 
   return (
-    <Wrapper>
+
+      <div className="mode-modify">
       <p className="text-modify">닉네임</p>
       <textarea className="input-nickname" placeholder="내가 지은 닉네임" value={nickname} onChange={onNicknameChange} />
       <p>자기소개</p>
       <textarea className="input-intro" placeholder="운영하고 있는 인스타그램, 링크드인, 브런치 주소를 알려주세요." value={introduction} onChange={onIntroductionChange} />
       <button className="button-modify-set" onClick={handleSaveClick}>수정 완료</button>
-    </Wrapper>
+      </div>
+
   );
 };
 
 const Wrapper = styled.div`
+padding-left: 170px;
+padding-right: 170px;
 
 .title{
   color: #212529;
@@ -114,7 +118,8 @@ const Wrapper = styled.div`
   line-height: 24px;
 }
 .button-modify{
-  width: 200px;
+  width: 160px;
+  height: 25px;
   margin: 10px;
   padding-right: 12px;
   padding-left: 12px;
@@ -123,6 +128,11 @@ const Wrapper = styled.div`
   border: 1px #7749F8 solid;
   justify-content: center; 
   align-items: center; 
+  color: #6610F2;
+  font-size: 14px;
+  font-family: Pretendard Variable;
+  font-weight: 700;
+  align: center;
 }
 .button-modify-set{
   color: white;
@@ -144,5 +154,10 @@ const Wrapper = styled.div`
   align-items: center; 
   gap: 4px; 
   display: inline-flex;
+}
+.mode-modify{
+  justify-content: center; 
+  align-items: center; 
+  margin-left: 0;
 }
 `;

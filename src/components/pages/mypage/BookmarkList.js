@@ -28,6 +28,9 @@ const BookmarkList = () => {
 export default BookmarkList;
 
 const Wrapper = styled.div`
+padding-left: 170px;
+padding-right: 170px;
+
 .list-container {
   display: flex;
   flex-wrap: wrap;
@@ -36,7 +39,7 @@ const Wrapper = styled.div`
 .list-item {
   position: relative; /* 아이템 이름과 개수의 상대적인 위치 */
   width: calc(33.33% - 16px); /* 3개의 아이템을 가로로 정렬하고 간격을 조절 */
-  height: 100px; 
+  height: 50px; 
   margin: 8px;
   background-color: #ccc;
   display: flex;
