@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Title = () => {
     return (
         <Wrapper>
-          <p>마이페이지</p>
+          <p className="title">마이페이지</p>
         </Wrapper>
     );
 };
@@ -12,10 +12,14 @@ const Title = () => {
 export default Title;
 
 const Wrapper = styled.div`
-color: #212529;
-font-size: 32px;
-font-family: Pretendard Variable;
-font-weight: 700;
-line-height: 46px;
-word-wrap: break-word
+padding-left: 170px;
+padding-right: 170px;
+.title{
+  color: #212529;
+  font-size: 32px;
+  font-family: Pretendard Variable;
+  font-weight: 700;
+  line-height: 46px;
+  word-wrap: break-word;
+}
 `
