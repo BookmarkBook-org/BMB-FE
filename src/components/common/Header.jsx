@@ -22,6 +22,9 @@ function Header() {
         <Link to="/setting" className="menu">
           설정
         </Link>
+        <Link to="/login" className="menu">
+          로그인... 임시
+        </Link>
       </nav>
     </HeaderWrapper>
   );
@@ -35,6 +38,8 @@ const HeaderWrapper = styled.section`
   display: flex;
   background-color: #7749f8;
   align-items: center;
+  padding-left: 150px;
+  padding-right: 150px;
 
   .logoImg {
     margin: 20px;
