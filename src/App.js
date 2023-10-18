@@ -6,6 +6,7 @@ import Home from './components/pages/Home';
 import Mypage from './components/pages/Mypage';
 import Setting from './components/pages/Setting';
 import styled from "styled-components";
+import Login from './components/pages/login/Login';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/mypage' element={<Mypage />} />
-          <Route path="/setting" element={<Setting />} />
+          <Route path='/setting' element={<Setting />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </ContentWrapper>
       </Router>
@@ -27,6 +29,4 @@ export default App;
 const ContentWrapper = styled.div`
   overflow-y: auto; 
   height: calc(100vh - 60px);
-  padding-left: 170px;
-  padding-right: 170px;
 `;

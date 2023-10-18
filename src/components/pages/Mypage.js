@@ -12,7 +12,7 @@ const Mypage = () => {
     return (
         <Wrapper>
             <Title />
-            <hr />
+            <hr className="hr"/>
             <UserInfo />
             <BookmarkMenu />
             <BookmarkFolder />
@@ -24,4 +24,7 @@ const Mypage = () => {
 export default Mypage;
 
 const Wrapper = styled.div`
+  .hr {
+    border-top: dashed 1px #dddddd;
+  }
 `
