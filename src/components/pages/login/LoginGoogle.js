@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import styled from "styled-components";
@@ -15,7 +15,6 @@ const LoginGoogle = () => {
   
   const handleSuccess = (res) => {
     console.log(res);
-    // Cookies.set("loggedIn", "true");
     navigate("/login/user");
   };
 

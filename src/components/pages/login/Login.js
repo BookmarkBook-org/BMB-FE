@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import styled from "styled-components";
-import Cookies from "js-cookie";
 
 const Login = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
     const [title, setTitle] = useState("");
   
     useEffect(() => {
       setTitle("로그인");
-        const isLoggedIn = Cookies.get("loggedIn");
-        
-        if (isLoggedIn === "true") {
-          setLoggedIn(true);
-        }
     }, []);
-
 
     return (
         <Wrapper>
-            {/* {loggedIn ? (
-        <Home />
-      ) : ( */}
             <div>
             <p className="title">{title}</p>
               <Outlet context={[title, setTitle]} />
             </div>
-        {/* )} */}
         </Wrapper>
     );
 };

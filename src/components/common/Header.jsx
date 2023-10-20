@@ -22,9 +22,6 @@ function Header() {
         <Link to="/setting" className="menu">
           설정
         </Link>
-        <Link to="/login" className="menu">
-          로그인... 임시
-        </Link>
       </nav>
     </HeaderWrapper>
   );

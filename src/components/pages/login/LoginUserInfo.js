@@ -6,6 +6,7 @@ const LoginUserInfo = () => {
 
   const navigate = useNavigate();
   const [title, setTitle] = useOutletContext();
+  const [nickname, setNickname] = useState('');
 
   useEffect(() => {
     setTitle("개인정보 입력"); 
@@ -18,7 +19,9 @@ const LoginUserInfo = () => {
   }, []); 
 
   const onNextPage = () => {
-    navigate("/login/upload");
+    if (nickname.length > 1 && nickname.length < 7){
+      navigate("/login/upload");
+    }
   };
 
   return (
@@ -34,6 +37,8 @@ const LoginUserInfo = () => {
             type="text"
             className="input-nickname"
             maxLength="6"
+            value = {nickname}
+            onChange = {(e) => setNickname(e.target.value)}
             placeholder="2~6자의 한글만 입력 가능합니다."
           ></input>
           <button className="button-nickname" onClick={onNextPage}>
@@ -95,11 +100,11 @@ const Wrapper = styled.div`
   height: 100%; 
   padding-left: 24px; 
   padding-right: 24px; 
-  padding-top: 16px; 
+  padding-top: 12px; 
   padding-bottom: 16px;
   line-height: 24px;
   word-wrap: break-word;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .progress-bar {
   width: 100%; 
