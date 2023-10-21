@@ -1,22 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-import Title from "./mypage/Title";
-import UserInfo from "./mypage/UserInfo";
-import BookmarkMenu from "./mypage/BookmarkMenu";
-import BookmarkFolder from "./mypage/BookmarkFolder";
-import BookmarkList from "./mypage/BookmarkList";
+import BookmarkTitle from "./mypage/BookmarkTitle";
+import BookmarkUserInfo from "./mypage/BookmarkUserInfo";
+import BookmarkPages from "./mypage/BookmarkPages";
 
 const Mypage = () => {
 
     return (
         <Wrapper>
-            <Title />
+            <BookmarkTitle />
             <hr className="hr"/>
-            <UserInfo />
-            <BookmarkMenu />
-            <BookmarkFolder />
-            <BookmarkList />
+            <BookmarkUserInfo />
+            <BookmarkPages />
         </Wrapper>
     );
 };
