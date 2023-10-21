@@ -17,7 +17,7 @@ padding-right: 170px;
 .title{
   color: #212529;
   font-size: 32px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   line-height: 46px;
   word-wrap: break-word;

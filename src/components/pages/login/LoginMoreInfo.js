@@ -122,7 +122,7 @@ const Wrapper = styled.div`
 
   color: white;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   line-height: 24px;
   word-wrap: break-word;

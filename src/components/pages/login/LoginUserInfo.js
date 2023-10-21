@@ -91,7 +91,7 @@ const Wrapper = styled.div`
 .button-nickname{
   color: white;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   background-color: #7749F8; 
   border-radius: 10px;

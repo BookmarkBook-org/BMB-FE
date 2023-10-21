@@ -37,7 +37,12 @@ const UserInfo = () => {
         <div>
           <p className="title">{nickname}</p>
           <p className="user-intro">{introduction}</p>
-          <button className="button-modify" onClick={handleEditClick}>수정하기</button>
+          <button className="button-modify" onClick={handleEditClick}>
+            <div className="button-cont">
+              <img className="img-button" src='/assets/images/ic_pencil.png' alt="ic_pencil.png" />
+              수정하기
+            </div>
+          </button>
         </div>
       )}
     </Wrapper>
@@ -53,13 +58,12 @@ const UserInfoMod = ({ onSave, nickname, introduction, onNicknameChange, onIntro
   };
 
   return (
-
       <div className="mode-modify">
-      <p className="text-modify">닉네임</p>
-      <textarea className="input-nickname" placeholder="내가 지은 닉네임" value={nickname} onChange={onNicknameChange} />
-      <p>자기소개</p>
-      <textarea className="input-intro" placeholder="운영하고 있는 인스타그램, 링크드인, 브런치 주소를 알려주세요." value={introduction} onChange={onIntroductionChange} />
-      <button className="button-modify-set" onClick={handleSaveClick}>수정 완료</button>
+        <p className="text-modify">닉네임</p>
+        <textarea className="input-nickname" placeholder="내가 지은 닉네임" value={nickname} onChange={onNicknameChange} />
+        <p className="text-modify">자기소개</p>
+        <textarea className="input-intro" placeholder="운영하고 있는 인스타그램, 링크드인, 브런치 주소를 알려주세요." value={introduction} onChange={onIntroductionChange} />
+        <button className="button-modify-set" onClick={handleSaveClick}>수정 완료</button>
       </div>
 
   );
@@ -72,7 +76,7 @@ padding-right: 170px;
 .title{
   color: #212529;
   font-size: 36px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   line-height: 52px;
   word-wrap: break-word;
@@ -80,7 +84,7 @@ padding-right: 170px;
 .user-intro{
   color: #6C757D;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-reg';
   font-weight: 400;
   line-height: 24px;
   word-wrap: break-word;
@@ -89,13 +93,14 @@ padding-right: 170px;
   background-color: #ffffff; 
   border-radius: 10px;
   border: 1px solid #DDDDDD;
+  font-family: 'Pret-reg';
 }
 .input-nickname{
   width: 100%;
   height: 50px; 
   color: #6C757D;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-reg';
   font-weight: 400;
   line-height: 24px;
   word-wrap: break-word
@@ -105,43 +110,48 @@ padding-right: 170px;
   height: 72px; 
   color: #6C757D;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-reg';
   font-weight: 400;
   line-height: 24px;
   word-wrap: break-word
 }
 .text-modify{
   color: black;
-  font-size: 16px;
-  font-family: Pretendard Variable;
+  font-size: 18px;
+  font-family: 'Pret-Bold';
   font-weight: 400;
   line-height: 24px;
 }
+.img-button{
+  width: 18px; height: 18px;
+}
 .button-modify{
-  width: 160px;
-  height: 25px;
-  margin: 10px;
-  padding-right: 12px;
-  padding-left: 12px;
-  background-color: #ffffff; 
-  border-radius: 8px;
-  border: 1px #7749F8 solid;
-  justify-content: center; 
-  align-items: center; 
+  width: 110px; 
+  height: 40px; 
+ 
+  background: white; 
+  border-radius: 8px; 
+  border: 1px #7749F8 solid; 
+  
   color: #6610F2;
-  font-size: 14px;
-  font-family: Pretendard Variable;
+  font-size: 16px;
   font-weight: 700;
-  align: center;
+  line-height: 24px;
+  word-wrap: break-word;
+  font-family: 'Pret-Bold';
+}
+.button-cont{
+  align-items: center; 
+  gap: 4px; 
+  display:flex;
+  justify-content: center; 
 }
 .button-modify-set{
   color: white;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   line-height: 24px;
-  word-wrap: break-word
-  width: 100%; 
   height: 100%; 
   padding-left: 12px; 
   padding-right: 12px; 
@@ -154,6 +164,7 @@ padding-right: 170px;
   align-items: center; 
   gap: 4px; 
   display: inline-flex;
+  margin-top: 12px;
 }
 .mode-modify{
   justify-content: center; 

@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import HomeTitle from './home/HomeTitle';
+import HomeUserInfo from './home/HomeUserInfo';
+import HomeBookmarkPages from './home/HomeBookmarkPages';
 const Home = () => {
 
     // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
@@ -15,7 +18,10 @@ const Home = () => {
 
     return (
         <Wrapper>
-            홈
+            <HomeTitle />
+            <hr className="hr"/>
+            <HomeUserInfo />
+            <HomeBookmarkPages />
         </Wrapper>
     );
 };

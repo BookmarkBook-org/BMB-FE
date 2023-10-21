@@ -58,7 +58,7 @@ const items = [
   }
 ];
 
-const BookmarkList = ({ folder }) => {
+const HomeBookmarkList = ({ folder }) => {
 
   const moveUrl = (url) => {
     window.open(url, '_blank'); 
@@ -85,7 +85,7 @@ const BookmarkList = ({ folder }) => {
     );
 };
 
-export default BookmarkList;
+export default HomeBookmarkList;
 
 const Wrapper = styled.div`
 padding-left: 170px;

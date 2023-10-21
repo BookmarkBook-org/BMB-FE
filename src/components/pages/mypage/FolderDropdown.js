@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const ListItem = styled.li`
   padding: 15px;
   font-size: 16px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 400;
   transition: background-color 0.2s; 
   color: #54595E;

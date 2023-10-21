@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
 
 const items = [
@@ -41,18 +40,11 @@ const items = [
   }
 ];
 
-const BookmarkFolder = ({ folder }) => {
+const HomeBookmarkFolder = ({ folder }) => {
   const navigate = useNavigate();
-  const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
-
-  const toggleItem = (index) => {
-    const newToggles = [...itemToggles];
-    newToggles[index] = !newToggles[index];
-    setItemToggles(newToggles);
-  };
 
   const moveFolder = (folderName) => {
-    navigate('/mypage?folder='+folderName);
+    navigate('?folder='+folderName);
   }
 
   return (
@@ -64,12 +56,6 @@ const BookmarkFolder = ({ folder }) => {
               <div className="item-name">{item.name}</div>
               <div className="item-num">총 {item.num}개의 북마크</div>
             </div>
-            <img alt="folder" src="/assets/images/more_dot.png" className="more-button" onClick={() => toggleItem(index)} />
-            {itemToggles[index] && (
-              <div className="dropdown-container">
-                <FolderDropdown />
-              </div>
-            )}
           </div>
         ))}
       </div>
@@ -77,7 +63,7 @@ const BookmarkFolder = ({ folder }) => {
     );
 };
 
-export default BookmarkFolder;
+export default HomeBookmarkFolder;
 
 const Wrapper = styled.div`
 padding-left: 170px;
@@ -122,18 +108,5 @@ padding-right: 170px;
   font-family: 'Pret-reg';
   font-weight: 400;
   line-height: 20px;
-}
-.more-button {
-  position: absolute;
-  height: 24px;
-  right: 10px;
-  cursor: pointer;
-}
-
-.dropdown-container {
-  position: absolute;
-  top: 60%; /* 드롭다운 메뉴가 아이템 아래쪽 */
-  right: 3%;
-  z-index: 2; 
 }
 `

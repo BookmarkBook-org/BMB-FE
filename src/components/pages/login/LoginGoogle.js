@@ -60,7 +60,7 @@ const Wrapper = styled.div`
 .title {
   color: #212529;
   font-size: 32px;
-  font-family: Pretendard Variable;
+  font-family: 'Pret-Bold';
   font-weight: 700;
   line-height: 40px;
   word-wrap: break-word;
