@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useDropzone } from 'react-dropzone';
 import { useNavigate, useOutletContext } from "react-router-dom";
 
+// 여기에 북마크 리스트가 저장됨.
+const bookmarks = [];
+
 const LoginBookmark = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const navigate = useNavigate();
@@ -31,11 +34,58 @@ const LoginBookmark = () => {
   });
 
   const onNextPage = () => {
+    getBookmarkList();
     navigate("/login/more");
   };
 
+  const getBookmarkList = () =>{
+    const file = uploadedFiles[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const htmlContent = e.target.result;
+        const lines = htmlContent.split('\n'); // 줄 단위로 분할
+
+        const folderPath = [];
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          if (line.trim().startsWith('<DT><H3')) {
+            const fileName = line.trim().match(/<H3[^>]*>([^<]+)<\/H3>/)[1];
+            folderPath.push(fileName);
+          }
+          else if (line.trim().startsWith('</DL>')){
+            folderPath.pop();
+          }
+          if (line.trim().startsWith('<DT><A HREF')) {
+
+            const linkName = line.trim().match(/<A[^>]*>([^<]+)<\/A>/)[1];
+            const linkUrl = line.trim().match(/HREF="([^"]+)"/)[1];
+
+            const nowFolderPath = folderPath.slice(1).join('/');
+
+            const bookmarkObject = {
+              'folderPath': nowFolderPath,
+              'name': linkName,
+              'url': linkUrl
+            }
+            bookmarks.push(bookmarkObject);
+          }
+        }
+
+        for (let i = 0; i < bookmarks.length; i++) {
+          console.log(bookmarks[i])
+        }
+      };
+
+      reader.readAsText(file);
+    }
+  }
+
   return (
     <Wrapper>
+      <script defer src="https://cdn.swygbro.com/public/widget/swyg-widget.js"></script>
       <div className="progress-bar">
         <hr className="hr" />
       </div>
@@ -50,6 +100,7 @@ const LoginBookmark = () => {
                 <li className="upload-list" key={index}>
                   <img 
                     src="/assets/images/ic_wrapper.svg"
+                    alt="파일"
                   />
                   {file.name}
                 </li>

@@ -12,12 +12,11 @@ import LoginUserInfo from './components/pages/login/LoginUserInfo';
 import LoginBookmark from './components/pages/login/LoginBookmark';
 import LoginMoreInfo from './components/pages/login/LoginMoreInfo';
 import LoginGoogle from './components/pages/login/LoginGoogle';
-import BookmarkMenu from './components/pages/mypage/BookmarkMenu';
 
 function App() {
   return (
     <Router>
-        <Header/>
+      <Header/>
         <ContentWrapper>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -32,7 +31,7 @@ function App() {
           </Route>
         </Routes>
       </ContentWrapper>
-      </Router>
+    </Router>
   );
 }
 
