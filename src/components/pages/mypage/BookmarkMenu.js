@@ -17,12 +17,30 @@ const BookmarkMenu = ({ folder }) => {
     }
   };
 
+  const [isFolderModalOpen, setFolderModalOpen] = useState(false);
+  const openFolderModal = () => {
+    setFolderModalOpen(true);
+  };
+  const closeFolderModal = () => {
+    setFolderModalOpen(false);
+  };
+  const handleFolderModalBackgroundClick = (e) => {
+    if (e.target.classList.contains("modal")) {
+      closeFolderModal();
+    }
+  };
+
   const [inputUrl, setInputUrl] = useState(""); 
   const [inputTitle, setInputTitle] = useState("");
-  
   const addBookMark = () =>{
     // inputUrl, inputTitle 서버에 저장
     closeModal();
+  }
+
+  const [folderTitle, setFolderTitle] = useState("");
+  const addFolder = () =>{
+    // Folder 저장
+    closeFolderModal();
   }
 
   return (
@@ -30,7 +48,7 @@ const BookmarkMenu = ({ folder }) => {
       <p className="title">{folder}</p>
       <div>
         <button className="add-button" onClick={openModal}><p className="add-button-font">+ 북마크 추가하기</p></button>
-        <button className="add-button"><p className="add-button-font">+ 폴더 추가하기</p></button>
+        <button className="add-button" onClick={openFolderModal}><p className="add-button-font">+ 폴더 추가하기</p></button>
       </div>
 
       {isModalOpen && (
@@ -65,6 +83,32 @@ const BookmarkMenu = ({ folder }) => {
           </div>
         </div>
       )}
+
+      {isFolderModalOpen && (
+        <div className="modal" onClick={handleFolderModalBackgroundClick}>
+          <div className="modal-box">
+            <div className="modal-title">
+              <span className="modal-close" onClick={closeFolderModal}>&times;</span>
+              <p className="modal-title">폴더 추가하기</p>
+            </div>
+            <hr />
+            <div className="modal-content">
+              <p>폴더 제목</p>
+              <input
+                className="modal-input"
+                type="text"
+                value={inputUrl}
+                onChange={(e) => setInputUrl(e.target.value)} // input url 변경 시 상태 업데이트
+              />
+            </div>
+            <hr />
+            <div className="modal-footer">
+              <button className="btn-exit" onClick={closeFolderModal}>취소</button>
+              <button className="btn-upload" onClick={addFolder}>업로드하기</button>
+            </div>
+          </div>
+        </div>
+      )}  
     </Wrapper>
   );
 };

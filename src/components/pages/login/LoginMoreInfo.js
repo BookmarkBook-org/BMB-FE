@@ -13,7 +13,7 @@ const LoginMoreInfo = () => {
     const hrElement = document.querySelector(".hr");
     if (hrElement) {
       setTimeout(() => {
-        hrElement.style.width = "100%";
+        hrElement.style.width = "99.9%";
       }, 10);
     }
   }, []);

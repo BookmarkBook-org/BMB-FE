@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 const Login = () => {
     const [title, setTitle] = useState("");
-  
+
+    const [isBlocking, setIsBlocking] = useState(false);
+    const navigate = useNavigate(); // Get the navigate function
+
     useEffect(() => {
-      setTitle("로그인");
-    }, []);
+        setTitle("로그인");
+        const unblock = navigate((loc, action) => {
+            if (action === 'POP' && isBlocking) {
+                return window.confirm('뒤로 가겠습니까');
+            }
+            return true;
+        });
+        return unblock;
+    }, [isBlocking, navigate]);
+
+    useEffect(() => {
+        setIsBlocking(true)
+    }, [isBlocking]);
+
 
     return (
         <Wrapper>
