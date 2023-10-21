@@ -13,6 +13,21 @@
   }
 }
 
+@font-face {
+  font-family: "Pret-Black";
+  src: url('../public/assets/fonts/Pretendard-Black.woff');
+}
+
+@font-face {
+  font-family: "Pret-Bold";
+  src: url('../public/assets/fonts/Pretendard-Bold.woff');
+}
+
+@font-face {
+  font-family: "Pret-reg";
+  src: url('../public/assets/fonts/Pretendard-Regular.woff');
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -25,7 +40,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #7749F8;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +50,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+button {
+  cursor: pointer;
 }

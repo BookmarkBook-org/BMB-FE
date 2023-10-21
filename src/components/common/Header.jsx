@@ -35,6 +35,8 @@ const HeaderWrapper = styled.section`
   display: flex;
   background-color: #7749f8;
   align-items: center;
+  padding-left: 150px;
+  padding-right: 150px;
 
   .logoImg {
     margin: 20px;
