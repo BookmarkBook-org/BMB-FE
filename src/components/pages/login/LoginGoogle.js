@@ -27,6 +27,7 @@ const LoginGoogle = () => {
         <p className="login-intro">안녕하세요<br /> 북마크를 공유하는 서비스,<br /> 북마크북입니다.</p>
         <GoogleOAuthProvider clientId={process.env.REACT_APP_API_KEY} className="login-button">
           <GoogleLogin
+            className="google-login-button"
             onSuccess={handleSuccess}
             onFailure={(err) => {
               console.log(err);
