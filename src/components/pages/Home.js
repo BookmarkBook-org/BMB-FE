@@ -4,6 +4,7 @@ import styled from "styled-components";
 import HomeTitle from './home/HomeTitle';
 import HomeUserInfo from './home/HomeUserInfo';
 import HomeBookmarkPages from './home/HomeBookmarkPages';
+
 const Home = () => {
 
     // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
@@ -29,4 +30,7 @@ const Home = () => {
 export default Home;
 
 const Wrapper = styled.div`
+.hr {
+    border-top: dashed 1px #dddddd;
+  }
 `

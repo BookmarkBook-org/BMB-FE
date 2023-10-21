@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
@@ -44,27 +44,45 @@ const items = [
 const BookmarkFolder = ({ folder }) => {
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 레이어 상태
 
   const toggleItem = (index) => {
     const newToggles = [...itemToggles];
     newToggles[index] = !newToggles[index];
     setItemToggles(newToggles);
+
+    // 드롭다운 메뉴가 열릴 때 모달 레이어를 활성화
+    setIsModalOpen(true);
+  };
+
+  const closeDropdown = () => {
+    // 모달 레이어를 클릭했을 때 드롭다운 메뉴를 닫고 모달 레이어 비활성화
+    setItemToggles(Array(items.length).fill(false));
+    setIsModalOpen(false);
   };
 
   const moveFolder = (folderName) => {
-    navigate('/mypage?folder='+folderName);
-  }
+    navigate('/mypage?folder=' + folderName);
+  };
 
   return (
     <Wrapper>
       <div className="list-container">
         {items.map((item, index) => (
-          <div key={index} className="list-item" onClick={()=>moveFolder(item.name)}>
+          <div key={index} className="list-item" onClick={() => moveFolder(item.name)}>
             <div className="item-info">
               <div className="item-name">{item.name}</div>
               <div className="item-num">총 {item.num}개의 북마크</div>
             </div>
-            <img alt="folder" src="/assets/images/more_dot.png" className="more-button" onClick={() => toggleItem(index)} />
+            <img
+              alt="folder"
+              src="/assets/images/more_dot.png"
+              className="more-button"
+              onClick={(e) => {
+                e.stopPropagation(); 
+                toggleItem(index);
+              }}
+            />
             {itemToggles[index] && (
               <div className="dropdown-container">
                 <FolderDropdown />
@@ -73,8 +91,11 @@ const BookmarkFolder = ({ folder }) => {
           </div>
         ))}
       </div>
+      {isModalOpen && ( // 모달 레이어
+        <div className="dropdown-background" onClick={closeDropdown}></div>
+      )}
     </Wrapper>
-    );
+  );
 };
 
 export default BookmarkFolder;
@@ -129,7 +150,19 @@ padding-right: 170px;
   right: 10px;
   cursor: pointer;
 }
-
+.dropdown-background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); 
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .dropdown-container {
   position: absolute;
   top: 60%; /* 드롭다운 메뉴가 아이템 아래쪽 */

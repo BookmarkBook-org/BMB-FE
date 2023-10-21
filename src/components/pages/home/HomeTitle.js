@@ -34,7 +34,6 @@ padding-right: 170px;
   font-size: 32px;
   font-family: 'Pret-Bold';
   font-weight: 700;
-  line-height: 46px;
   word-wrap: break-word;
 }
 .img-btn-others{
@@ -51,8 +50,8 @@ padding-right: 170px;
   height: 100%; 
   padding-left: 24px; 
   padding-right: 24px; 
-  padding-top: 16px; 
-  padding-bottom: 16px; 
+  padding-top: 14px; 
+  padding-bottom: 14px; 
 
   background: white; 
   border-radius: 8px; 
