@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
+// import { client } from '../../../client';
+// import { gql } from "@apollo/client";
 
-const items = [
+const harditems = [
   {
     id: 1,
     name: '네이버',
@@ -60,6 +62,46 @@ const items = [
 
 const BookmarkList = ({ folder }) => {
 
+//   const [items, setItems] = useState([]);
+
+//   const GET_MYPAGE_BOOKMARK = gql`
+//   query getMyPage($user_id: Float!) {
+//     getMyPage(user_id: $user_id) {
+//       bookmarks {
+//         id
+//         title
+//         url
+//         parentFolderName
+//         createdAt
+//         updatedAt
+//       }
+//     }
+//   }
+// `;
+
+// useEffect(() => {
+
+//   client
+//   .query({
+//     query: GET_MYPAGE_BOOKMARK,
+//     variables: {
+//       user_id: 1
+//     },
+//     fetchPolicy: 'no-cache'
+//   })
+//   .then((res) => {
+//     console.log(res.data?.getMyPage.bookmarks);
+//     setItems(res.data?.getMyPage.bookmarks);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// }, []);
+
+// useEffect(() => {
+//   console.log(items);
+// }, [items]);
+
   const moveUrl = (url) => {
     window.open(url, '_blank'); 
 
@@ -67,7 +109,7 @@ const BookmarkList = ({ folder }) => {
   return (
     <Wrapper>
       <div className="list-container">
-      {items.map((item, index) => (
+      {harditems.map((item, index) => (
           <div key={index} className="list-item" onClick={()=>moveUrl(item.url)}>
             <img 
               src={item.thumbnail} 
@@ -75,8 +117,8 @@ const BookmarkList = ({ folder }) => {
               alt={`Image ${index}`} 
             />
             <div className="item-info">
-              <div className="item-name">{item.name}</div>
-              <div className="item-date">{}일 전 추가됨</div>
+              <div className="item-name">{item.title}</div>
+              <div className="item-date">{item.createdAt}에 추가됨</div>
             </div>
           </div>
         ))}
