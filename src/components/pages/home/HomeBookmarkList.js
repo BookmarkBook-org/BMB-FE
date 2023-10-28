@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
+// import { client } from '../../../client';
+// import { gql } from "@apollo/client";
 
-const items = [
+const harditems = [
   {
     id: 1,
     name: '네이버',
@@ -60,6 +62,45 @@ const items = [
 
 const HomeBookmarkList = ({ folder }) => {
 
+//   const GET_MYPAGE = gql`
+//   query getMyPage($user_id: Float!) {
+//     getMyPage(user_id: $user_id) {
+//       bookmarks {
+//         id
+//         title
+//         url
+//         parentFolderName
+//       }
+//     }
+//   }
+// `;
+
+// const [items, setItems] = useState([]);
+
+// useEffect(() => {
+
+//   client
+//   .query({
+//     query: GET_MYPAGE,
+//     variables: {
+//       user_id: 1
+//     },
+//     fetchPolicy: 'no-cache'
+//   })
+//   .then((res) => {
+//     console.log(res.data?.getMyPage);
+//     setItems(res.data?.getMyPage.bookmarks);
+//     console.log(items);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// }, []);
+
+// useEffect(() => {
+//   console.log(items);
+// }, [items]);
+
   const moveUrl = (url) => {
     window.open(url, '_blank'); 
 
@@ -67,15 +108,15 @@ const HomeBookmarkList = ({ folder }) => {
   return (
     <Wrapper>
       <div className="list-container">
-      {items.map((item, index) => (
+      {harditems.map((item, index) => (
           <div key={index} className="list-item" onClick={()=>moveUrl(item.url)}>
             <img 
-              src={item.thumbnail} 
+              src={null} 
               className='list-thumbnail'
               alt={`Image ${index}`} 
             />
             <div className="item-info">
-              <div className="item-name">{item.name}</div>
+              <div className="item-name">{item.title}</div>
               <div className="item-date">{}일 전 추가됨</div>
             </div>
           </div>

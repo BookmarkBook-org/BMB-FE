@@ -2,46 +2,51 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
-
-const items = [
-  {
-    id: 1,
-    name: '기획, IA',
-    num: 3
-  },
-  {
-    id: 2,
-    name: '개발',
-    num: 2
-  },
-  {
-    id: 3,
-    name: '디자인',
-    num: 3
-  },
-  {
-    id: 4,
-    name: '레퍼런스',
-    num: 4
-  },
-  {
-    id: 5,
-    name: '기획, IA',
-    num: 3
-  },
-  {
-    id: 6,
-    name: '기획, IA',
-    num: 3
-  },
-  {
-    id: 7,
-    name: '기획, IA',
-    num: 8
-  }
-];
+// import { client } from "../../../client";
+// import { gql } from "@apollo/client";
 
 const BookmarkFolder = ({ folder }) => {
+
+  const [items, setItems] = useState([]);
+
+//   const GET_MYPAGE_FOLDER = gql`
+//   query getMyPage($user_id: Float!) {
+//     getMyPage(user_id: $user_id) {
+//       folders {
+//         id
+//         folderName
+//         parentFolderName
+//         isShared
+//         createdAt
+//         updatedAt
+//       }
+//     }
+//   }
+// `;
+
+// useEffect(() => {
+//   client
+//   .query({
+//     query: GET_MYPAGE_FOLDER,
+//     variables: {
+//       user_id: 1
+//     },
+//     fetchPolicy: 'no-cache'
+//   })
+//   .then((res) => {
+//     console.log(res.data?.getMyPage.folders);
+//     setItems(res.data?.getMyPage.folders);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// }, []);
+
+useEffect(() => {
+  console.log(items);
+}, [items]);
+
+
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 레이어 상태
@@ -68,11 +73,11 @@ const BookmarkFolder = ({ folder }) => {
   return (
     <Wrapper>
       <div className="list-container">
-        {items.map((item, index) => (
+        {items && items.map((item, index) => (
           <div key={index} className="list-item" onClick={() => moveFolder(item.name)}>
             <div className="item-info">
-              <div className="item-name">{item.name}</div>
-              <div className="item-num">총 {item.num}개의 북마크</div>
+              <div className="item-name">{item.folderName}</div>
+              <div className="item-num">총 {item.id}개의 북마크</div>
             </div>
             <img
               alt="folder"
