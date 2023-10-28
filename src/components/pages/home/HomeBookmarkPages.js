@@ -62,7 +62,7 @@ const HomeBookmarkPages = () => {
       .query({
         query: GET_MYPAGE_BASE,
         variables: {
-          user_id: 1
+          user_id: 5
         },
         fetchPolicy: 'no-cache'
       })
@@ -85,7 +85,7 @@ const HomeBookmarkPages = () => {
         query: GET_MYPAGE,
         variables: {
           parent_folder_name: folderName,
-          user_id: 1
+          user_id: 5
         },
         fetchPolicy: 'no-cache'
       })

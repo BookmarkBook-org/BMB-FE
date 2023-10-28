@@ -48,21 +48,26 @@ const BookmarkMenu = ({ items }) => {
   const [inputTitle, setInputTitle] = useState("");
   const addBookMark = () =>{
 
+    let parentFolderName = items
+    if (items === '전체 북마크'){
+      parentFolderName = null;
+    }
     client 
     .mutate({
       mutation: CREATE_BOOKMARK,
       variables: {
-       create_bookmark_input: {
-        title: inputTitle,
-        url: inputUrl,
-        parentFolderName: items,
-       },
-       user_id: 1
+        "create_bookmark_input": {
+          "title": inputTitle,
+          "url": inputUrl,
+          "parentFolderName": parentFolderName
+        },
+        "user_id": 5
       },
       fetchPolicy: 'no-cache'
     })
     .then((res) => {
       console.log(res.data);
+      window.location.reload();
     })
     .catch((err) => {
       console.log(err);
@@ -73,7 +78,31 @@ const BookmarkMenu = ({ items }) => {
 
   const [folderTitle, setFolderTitle] = useState("");
   const addFolder = () =>{
-    // Folder 저장
+    let parentFolderName = items
+    if (items === '전체 북마크'){
+      parentFolderName = null;
+    }
+    client 
+    .mutate({
+      mutation: CREATE_FOLDER,
+      variables: {
+        "create_folder_input": {
+          "folderName": folderTitle,
+          "parentFolderName": parentFolderName,
+          "isShared": true
+        },
+        "user_id": 5
+      },
+      fetchPolicy: 'no-cache'
+    })
+    .then((res) => {
+      console.log(res.data);
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
     closeFolderModal();
   }
 
@@ -131,8 +160,8 @@ const BookmarkMenu = ({ items }) => {
               <input
                 className="modal-input"
                 type="text"
-                value={inputUrl}
-                onChange={(e) => setInputUrl(e.target.value)} // input url 변경 시 상태 업데이트
+                value={folderTitle}
+                onChange={(e) => setFolderTitle(e.target.value)} // input url 변경 시 상태 업데이트
               />
             </div>
             <hr />
