@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const HomeUserInfo = () => {
-  const [nickname, setNickname] = useState("닉네임");
-  const [introduction, setIntroduction] = useState("안녕하세요.");
+  const [nickname, setNickname] = useState("유저5");
+  const [introduction, setIntroduction] = useState("안녕하세요");
   return (
     <Wrapper>
       <p className="title">{nickname}</p>

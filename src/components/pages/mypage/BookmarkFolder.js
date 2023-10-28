@@ -93,7 +93,7 @@ const BookmarkFolder = ({ items }) => {
             />
             {itemToggles[index] && (
               <div className="dropdown-container">
-                <FolderDropdown index={index} />
+                <FolderDropdown index={item.id} />
               </div>
             )}
           </div>

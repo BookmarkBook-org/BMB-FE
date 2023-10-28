@@ -30,7 +30,7 @@ const HomeBookmarkList = ({ items }) => {
     } else if (dayDifference < 30) {
       return <p>{dayDifference}일 전</p>;
     } else {
-      // 형식화된 날짜 문자열 사용
+
       const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
       return <p>{formattedDate}</p>;
     }
