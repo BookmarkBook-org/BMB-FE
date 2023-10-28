@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const HomeBookmarkMenu = ({ folder }) => {
+const HomeBookmarkMenu = ({ items }) => {
 
   return (
     <Wrapper>
-      <p className="title">{folder}</p>
+      <p className="title">{items}</p>
     </Wrapper>
   );
 };

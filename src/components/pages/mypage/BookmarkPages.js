@@ -1,19 +1,107 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
 
 import BookmarkMenu from './BookmarkMenu';
 import BookmarkFolder from './BookmarkFolder';
 import BookmarkList from './BookmarkList';
 
+const GET_MYPAGE = gql`
+  query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+      folders {
+        id
+        folderName
+        parentFolderName
+      }
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+      }
+    }
+  }
+`;
+
+const GET_MYPAGE_BASE = gql`
+  query getMyPage($user_id: Float!) {
+    getMyPage(user_id: $user_id) {
+      folders {
+        id
+        folderName
+        parentFolderName
+      }
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+        createdAt
+      }
+    }
+  }
+`;
 
 const BookmarkPages = () => {
   const location = useLocation();
-
-  // 쿼리에서 폴더 이름 가져옴 ->  폴더, 리스트 부분에 폴더이름 넘겨줌
   const query = new URLSearchParams(location.search);
-  const folder = query.get('folder') || '전체 북마크';
+  const folderName = query.get('folder') || '전체 북마크';
+
+  const [ folderList, setFolderList ] = useState([]);
+  const [ bookmarkList, setBookmarkList ] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
+  useEffect(() => {
+    setLoading(true);
+    if(folderName === '전체 북마크'){
+      client
+      .query({
+        query: GET_MYPAGE_BASE,
+        variables: {
+          user_id: 1
+        },
+        fetchPolicy: 'no-cache'
+      })
+      .then((res) => {
+        console.log(res.data?.getMyPage);
+        const thisFolder = res.data?.getMyPage.folders.filter(item => item.parentFolderName === null);
+        setFolderList(thisFolder);
+        const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
+        setBookmarkList(thisBookmark);
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+    } else{
+      client
+      .query({
+        query: GET_MYPAGE,
+        variables: {
+          parent_folder_name: folderName,
+          user_id: 1
+        },
+        fetchPolicy: 'no-cache'
+      })
+      .then((res) => {
+        console.log(res.data?.getAllListByParentFolderName);
+        setFolderList(res.data?.getAllListByParentFolderName.folders);
+        setBookmarkList(res.data?.getAllListByParentFolderName.bookmarks);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+    }
+
+  }, [folderName])
 
   return (
     <Wrapper>
@@ -65,9 +153,17 @@ const BookmarkPages = () => {
         />
       </Helmet>
 
-      <BookmarkMenu folder={folder} />
-      <BookmarkFolder folder={folder} />
-      <BookmarkList folder={folder} />
+      {loading ? ( 
+        <div>
+
+        </div>
+      ) : (
+        <div>
+          <BookmarkMenu items={folderName} />
+          <BookmarkFolder items={folderList} />
+          <BookmarkList items={bookmarkList} />
+        </div>
+      )}
     </Wrapper>
     );
 };
