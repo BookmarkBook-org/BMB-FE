@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const BookmarkMenu = ({ folder }) => {
+const BookmarkMenu = ({ items }) => {
 
   // 모달창 부분
   const [isModalOpen, setModalOpen] = useState(false);
@@ -45,7 +45,7 @@ const BookmarkMenu = ({ folder }) => {
 
   return (
     <Wrapper>
-      <p className="title">{folder}</p>
+      <p className="title">{items}</p>
       <div>
         <button className="add-button" onClick={openModal}><p className="add-button-font">+ 북마크 추가하기</p></button>
         <button className="add-button" onClick={openFolderModal}><p className="add-button-font">+ 폴더 추가하기</p></button>

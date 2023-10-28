@@ -1,82 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
-const items = [
-  {
-    id: 1,
-    name: '네이버',
-    url: 'https://www.naver.com',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 2,
-    name: '유튜브',
-    url: 'https://www.youtube.com/',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 3,
-    name: '이미 push된 file .gitignore 적용하기',
-    url: 'https://cjh5414.github.io/gitignore-update/',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 3,
-    name: '이미 push된 file .gitignore 적용하기',
-    url: 'https://cjh5414.github.io/gitignore-update/',
-    thumbnail: '/assets/images/img_example_thumbnail.png' 
-  },
-  {
-    id: 1,
-    name: '네이버',
-    url: 'https://www.naver.com',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 2,
-    name: '유튜브',
-    url: 'https://www.youtube.com/',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 1,
-    name: '네이버',
-    url: 'https://www.naver.com',
-    thumbnail: '/assets/images/img_example_thumbnail.png'  
-  },
-  {
-    id: 2,
-    name: '유튜브',
-    url: 'https://www.youtube.com/',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  },
-  {
-    id: 3,
-    name: '이미 push된 file .gitignore 적용하기',
-    url: 'https://cjh5414.github.io/gitignore-update/',
-    thumbnail: '/assets/images/img_example_thumbnail.png'
-  }
-];
-
-const HomeBookmarkList = ({ folder }) => {
+const HomeBookmarkList = ({ items }) => {
 
   const moveUrl = (url) => {
     window.open(url, '_blank'); 
-
   }
+
+  // 날짜 계산 함수
+  const getTimeGap = (a) => {
+
+    if (a == null){
+      return <p>날짜를 불러올 수 없음</p>
+    }
+
+    const date = new Date(parseInt(a));
+    const now = new Date();
+    const timeDifference = now - date;
+    const minuteDifference = Math.floor(timeDifference / (1000 * 60));
+    const hourDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+    const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  
+    if (minuteDifference < 1) {
+      return <p>방금 전</p>;
+    } else if (minuteDifference < 60) {
+      return <p>{minuteDifference}분 전</p>;
+    } else if (hourDifference < 24) {
+      return <p>{hourDifference}시간 전</p>;
+    } else if (dayDifference < 30) {
+      return <p>{dayDifference}일 전</p>;
+    } else {
+      // 형식화된 날짜 문자열 사용
+      const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+      return <p>{formattedDate}</p>;
+    }
+};
+  
+
   return (
     <Wrapper>
       <div className="list-container">
-      {items.map((item, index) => (
-          <div key={index} className="list-item" onClick={()=>moveUrl(item.url)}>
+      {items && items.length > 0 && items.map((item, index) => (
+          <div key={index} className="list-item" onClick={() => moveUrl(item.url)}>
             <img 
-              src={item.thumbnail} 
+              src="/assets/images/img_example_thumbnail.png" 
               className='list-thumbnail'
               alt={`Image ${index}`} 
             />
             <div className="item-info">
-              <div className="item-name">{item.name}</div>
-              <div className="item-date">{}일 전 추가됨</div>
+              <div className="item-name">{item.title}</div>
+              <div className="item-date">{getTimeGap(item.createdAt)}</div>
             </div>
           </div>
         ))}
