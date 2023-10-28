@@ -1,6 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
+
+const CREATE_BOOKMARK = gql`
+  mutation createBookmark($create_bookmark_input: createBookmarkInput!, $user_id: Float!) {
+    createBookmark(create_bookmark_input: $create_bookmark_input, user_id: $user_id) 
+  }
+`;
+const CREATE_FOLDER = gql`
+mutation createFolder($create_folder_input: createFolderInput!, $user_id: Float!) {
+  createFolder(create_folder_input: $create_folder_input, user_id: $user_id) 
+}
+`;
+
 const BookmarkMenu = ({ items }) => {
 
   // 모달창 부분
@@ -33,7 +47,27 @@ const BookmarkMenu = ({ items }) => {
   const [inputUrl, setInputUrl] = useState(""); 
   const [inputTitle, setInputTitle] = useState("");
   const addBookMark = () =>{
-    // inputUrl, inputTitle 서버에 저장
+
+    client 
+    .mutate({
+      mutation: CREATE_BOOKMARK,
+      variables: {
+       create_bookmark_input: {
+        title: inputTitle,
+        url: inputUrl,
+        parentFolderName: items,
+       },
+       user_id: 1
+      },
+      fetchPolicy: 'no-cache'
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
     closeModal();
   }
 
@@ -152,7 +186,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* 배경 어두운 처리 */
-    z-index: 3;
+    z-index: 4;
     display: flex;
     justify-content: center;
     align-items: center;

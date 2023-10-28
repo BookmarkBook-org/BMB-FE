@@ -23,6 +23,7 @@ const BookmarkFolder = ({ items }) => {
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 레이어 상태
+  const [bookmarkCounts, setBookmarkCounts] = useState({});
 
   const toggleItem = (index) => {
     const newToggles = [...itemToggles];
@@ -40,10 +41,10 @@ const BookmarkFolder = ({ items }) => {
   };
 
   const moveFolder = (folderName) => {
-    navigate('/mypage?folder=' + folderName);
+    if (!isModalOpen){
+      navigate('/mypage?folder=' + folderName);
+    }
   };
-
-  const [bookmarkCounts, setBookmarkCounts] = useState({});
 
   useEffect(() => {
     const fetchBookmarkCounts = async () => {
@@ -92,7 +93,7 @@ const BookmarkFolder = ({ items }) => {
             />
             {itemToggles[index] && (
               <div className="dropdown-container">
-                <FolderDropdown />
+                <FolderDropdown index={index} />
               </div>
             )}
           </div>
@@ -156,6 +157,7 @@ padding-right: 170px;
   height: 24px;
   right: 10px;
   cursor: pointer;
+  z-index: 2; 
 }
 .dropdown-background {
   display: none;
@@ -165,7 +167,7 @@ padding-right: 170px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0); 
-  z-index: 1;
+  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -174,6 +176,6 @@ padding-right: 170px;
   position: absolute;
   top: 60%; /* 드롭다운 메뉴가 아이템 아래쪽 */
   right: 3%;
-  z-index: 2; 
+  z-index: 4; 
 }
 `
