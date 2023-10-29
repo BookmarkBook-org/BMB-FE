@@ -1,10 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { gql,  useQuery } from "@apollo/client";
+import { client } from "../../../client";
 
-const UserInfo = () => {
+const GET_USERINFO = gql`
+  query getUserInfo($user_id: Float!) {
+    getUserInfo(user_id: $user_id) {
+      id
+      nickname
+      selfIntroduction
+    }
+  }
+`;
+
+const BookmarkUserInfo = (props) => {
+
+  const { user } = props;
+
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("북마크북");
-  const [introduction, setIntroduction] = useState("개발 공부를 하는 학생입니다.");
+  const [introduction, setIntroduction] = useState("안녕하세요.");
+
+  useEffect(() => {
+    client
+    .query({
+      query: GET_USERINFO,
+      variables: {
+        user_id: user
+      },
+      fetchPolicy: 'no-cache'
+    })
+    .then((res) => {
+      const thisUser = res.data?.getUserInfo;
+      setNickname(thisUser.nickname);
+      setIntroduction(thisUser.selfIntroduction);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [])
 
   // 수정하기 버튼 클릭
   const handleEditClick = () => {
@@ -49,7 +83,7 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default BookmarkUserInfo;
 
 // 수정 모드에서 표시될 컴포넌트
 const UserInfoMod = ({ onSave, nickname, introduction, onNicknameChange, onIntroductionChange }) => {

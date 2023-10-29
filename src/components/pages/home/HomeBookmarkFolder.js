@@ -36,7 +36,7 @@ const HomeBookmarkFolder = ({ items }) => {
             query: GET_MYPAGE,
             variables: {
               parent_folder_name: item.folderName,
-              user_id: 1,
+              user_id: 5,
             },
             fetchPolicy: 'no-cache',
           });

@@ -46,7 +46,10 @@ const GET_MYPAGE_BASE = gql`
   }
 `;
 
-const BookmarkPages = () => {
+const BookmarkPages = (props) => {
+
+  const { user } = props;
+
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const folderName = query.get('folder') || '전체 북마크';
@@ -67,7 +70,6 @@ const BookmarkPages = () => {
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getMyPage);
         const thisFolder = res.data?.getMyPage.folders.filter(item => item.parentFolderName === null);
         setFolderList(thisFolder);
         const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
@@ -90,7 +92,6 @@ const BookmarkPages = () => {
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getAllListByParentFolderName);
         setFolderList(res.data?.getAllListByParentFolderName.folders);
         setBookmarkList(res.data?.getAllListByParentFolderName.bookmarks);
         setLoading(false);
