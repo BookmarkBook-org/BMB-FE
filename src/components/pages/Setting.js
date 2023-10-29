@@ -2,12 +2,30 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
+import { client } from '../../client';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_USER_ID = gql`
+    query GetUserId {
+      getUserId
+    }
+  `;
+
+const DELETE_USER = gql`
+  mutation deleteUser($user_id: Float!) {
+    deleteUser(user_id: $user_id)
+  }
+`;
 
 
 const Setting = () => {
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
+  const { data, loading, error } = useQuery(GET_USER_ID);
+  const userId = data?.getUserId;
+
+
   useEffect(() => {
     const isLoggedin = document.cookie.includes('loggedIn=true');
     if (!isLoggedin) {
@@ -21,7 +39,21 @@ const Setting = () => {
     navigate('/login');
   }
   const userDelete = () =>{
-    //삭제
+    
+    client
+      .mutate({
+        mutation: DELETE_USER,
+        variables: {
+          user_id: userId,
+        },
+        fetchPolicy: "no-cache",
+      })
+      .then((res) => {
+        console.log(res.data?.deleteUser);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <Wrapper>
