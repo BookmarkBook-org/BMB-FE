@@ -12,8 +12,8 @@ const CHANGE_FOLDER_VIEW = gql`
 `;
 
 const CHANGE_FOLDER_NAME = gql`
-  mutation updateFolder($folder_id: Float!, $title: String!, $parent_folder_name: String!, $is_shared: Boolean!) {
-    updateFolder(folder_id: $folder_id, title: $title, parent_folder_name: $parent_folder_name, is_shared: $is_shared) 
+  mutation updateFolder($folder_id: Float!, $title: String!, $is_shared: Boolean!) {
+    updateFolder(folder_id: $folder_id, title: $title, is_shared: $is_shared) 
   }
 `;
 
@@ -53,7 +53,6 @@ const FolderDropdown = ({index}) => {
       variables: {
        folder_id: parseFloat(index),
        title: changedFolderName,
-       parent_folder_name: folderName,
        is_shared: false
       },
       fetchPolicy: 'no-cache'
