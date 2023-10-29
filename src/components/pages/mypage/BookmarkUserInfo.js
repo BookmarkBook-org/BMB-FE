@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const UserInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [nickname, setNickname] = useState("닉네임");
-  const [introduction, setIntroduction] = useState("안녕하세요.");
+  const [nickname, setNickname] = useState("북마크북");
+  const [introduction, setIntroduction] = useState("개발 공부를 하는 학생입니다.");
 
   // 수정하기 버튼 클릭
   const handleEditClick = () => {
