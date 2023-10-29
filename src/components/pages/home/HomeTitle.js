@@ -1,23 +1,35 @@
 import React from "react";
 import styled from "styled-components";
+import { gql,  useQuery } from "@apollo/client";
+import { client } from "../../../client";
+
+const ALL_USERS = gql`
+  query getAllUserId {
+    getAllUserId
+  }
+`;
 
 const HomeTitle = (props) => {
+
+  const { data, loading, error } =  useQuery(ALL_USERS);
   const {randUser, setRandUser} = props;
 
-  const otherUser = () =>{
-    const min = 1;
-    const max = 10;
-    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
+  const OtherUser = () =>{
+    
+    const userIdList = data?.getAllUserId;
+    const randomInt = userIdList[Math.floor(Math.random() * userIdList.length)];
+
+    console.log("랜덤유저 아이디:", randomInt);
     setRandUser(randomInt);
   }
 
     return (
         <Wrapper>
           <p className="title">홈</p>
-          <button className="btn-others" onClick={()=>otherUser()} >
+          <button className="btn-others" onClick={()=>OtherUser()} >
             <div className="button-cont">
               다음 유저의 북마크 보기
-              <img className="img-btn-others" src="/assets/images/ic_next_btn.png" onClick={otherUser} />
+              <img className="img-btn-others" src="/assets/images/ic_next_btn.png" onClick={OtherUser} />
             </div>
           </button>
         </Wrapper>
