@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { gql } from '@apollo/client';
@@ -46,6 +46,7 @@ const BookmarkMenu = ({ items }) => {
 
   const [inputUrl, setInputUrl] = useState(""); 
   const [inputTitle, setInputTitle] = useState("");
+
   const addBookMark = () =>{
 
     let parentFolderName = items

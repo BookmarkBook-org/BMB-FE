@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
+
+const INFO_BOOKMARK = gql`
+  query getBookmarkInfo($bookmark_id: Float!) {
+    getBookmarkInfo(bookmark_id: $bookmark_id) {
+      title
+      imageUrl
+    }
+  }
+`;
 
 const BookmarkList = ({ items }) => {
 
@@ -34,7 +45,40 @@ const BookmarkList = ({ items }) => {
       const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
       return <p>{formattedDate}</p>;
     }
-};
+  };
+
+  const handleImageError = (e) => {
+    console.log(e);
+    e.currentTarget.src = "/assets/images/img_thumbnail.jpg";
+    console.log(e.target.src)
+  }
+  
+  const [bookmarkUrl, setBookmarkUrl] = useState([]);
+
+  useEffect(() => {
+    const fetchBookmarkImage = async () => {
+      const images = {};
+      for (const item of items) {
+        try {
+          const res = await client.query({
+            query: INFO_BOOKMARK,
+            variables: {
+              bookmark_id: parseInt(item.id)
+            },
+            fetchPolicy: 'no-cache',
+          });
+
+          const resUrl = res.data?.getBookmarkInfo.imageUrl;
+          images[item.id] = resUrl;
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      setBookmarkUrl(images);
+    };
+
+    fetchBookmarkImage();
+  }, [items]);
 
   return (
     <Wrapper>
@@ -42,9 +86,10 @@ const BookmarkList = ({ items }) => {
       {items && items.length > 0 && items.map((item, index) => (
           <div key={index} className="list-item" onClick={() => moveUrl(item.url)}>
             <img 
-              src="/assets/images/img_example_thumbnail.png" 
+              src={bookmarkUrl[item.id] || "/assets/images/img_thumbnail.jpg"}
               className='list-thumbnail'
               alt={`Image ${index}`} 
+              onError={handleImageError}
             />
             <div className="item-info">
               <div className="item-name">{item.title}</div>
@@ -81,10 +126,13 @@ padding-right: 170px;
   cursor: pointer;
 }
 .list-thumbnail {
-  width:100%;
-  height: 100%;
+  width: 100%;
+  height: 261px;
   object-fit: cover;
   overflow: hidden;
+  margin: 0;
+  flex: 1;
+  align-self: flex-start;
 }
 .item-info {
   position: absolute; 
@@ -93,7 +141,6 @@ padding-right: 170px;
   width: 100%;
   background: #fff;
   padding: 12px;
-  z-index: 1; /* 드롭다운 메뉴보다 위에 표시 */
 }
 .item-name{
   color: #343A40;
