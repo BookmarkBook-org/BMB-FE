@@ -53,7 +53,6 @@ const LoginBookmark = () => {
           const line = lines[i];
           if (line.trim().startsWith('<DT><H3')) {
             const fileName = line.trim().match(/<H3[^>]*>([^<]+)<\/H3>/)[1];
-            folderPath.push(fileName);
           }
           else if (line.trim().startsWith('</DL>')){
             folderPath.pop();
@@ -66,9 +65,9 @@ const LoginBookmark = () => {
             const nowFolderPath = folderPath.slice(1).join('/');
 
             const bookmarkObject = {
-              'folderPath': nowFolderPath,
-              'name': linkName,
-              'url': linkUrl
+              'folderPath': nowFolderPath ? nowFolderPath : "",
+              'name': linkName ? linkName : "",
+              'url': linkUrl ? linkUrl : "",
             }
             bookmarks.push(bookmarkObject);
           }

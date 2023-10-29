@@ -35,7 +35,6 @@ const HomeBookmarkList = ({ items }) => {
       return <p>{formattedDate}</p>;
     }
 };
-  
 
   return (
     <Wrapper>
