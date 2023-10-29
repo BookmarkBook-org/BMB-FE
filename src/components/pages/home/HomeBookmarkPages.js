@@ -46,7 +46,7 @@ const GET_MYPAGE_BASE = gql`
   }
 `;
 
-const HomeBookmarkPages = () => {
+const HomeBookmarkPages = (props) => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const folderName = query.get('folder') || '전체 북마크';
@@ -55,19 +55,21 @@ const HomeBookmarkPages = () => {
   const [ bookmarkList, setBookmarkList ] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
+  const { user } = props;
+
   useEffect(() => {
     setLoading(true);
+    console.log(user);
     if(folderName === '전체 북마크'){
       client
       .query({
         query: GET_MYPAGE_BASE,
         variables: {
-          user_id: 5
+          user_id: user
         },
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getSharedPage);
         const thisFolder = res.data?.getSharedPage.folders.filter(item => item.parentFolderName === null);
         setFolderList(thisFolder);
         const thisBookmark = res.data?.getSharedPage.bookmarks.filter(item => item.parentFolderName === null);
@@ -85,12 +87,11 @@ const HomeBookmarkPages = () => {
         query: GET_MYPAGE,
         variables: {
           parent_folder_name: folderName,
-          user_id: 5
+          user_id: user
         },
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getSharedListByParentFolderName);
         setFolderList(res.data?.getSharedListByParentFolderName.folders);
         setBookmarkList(res.data?.getSharedListByParentFolderName.bookmarks);
         setLoading(false);
@@ -101,7 +102,7 @@ const HomeBookmarkPages = () => {
       });
     }
 
-  }, [folderName])
+  }, [folderName, user])
 
   return (
     <Wrapper>

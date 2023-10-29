@@ -66,7 +66,6 @@ const BookmarkMenu = ({ items }) => {
       fetchPolicy: 'no-cache'
     })
     .then((res) => {
-      console.log(res.data);
       window.location.reload();
     })
     .catch((err) => {
@@ -96,7 +95,6 @@ const BookmarkMenu = ({ items }) => {
       fetchPolicy: 'no-cache'
     })
     .then((res) => {
-      console.log(res.data);
       window.location.reload();
     })
     .catch((err) => {

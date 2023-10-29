@@ -2,12 +2,22 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
+import { gql,  useQuery } from "@apollo/client";
 
 import BookmarkTitle from "./mypage/BookmarkTitle";
 import BookmarkUserInfo from "./mypage/BookmarkUserInfo";
 import BookmarkPages from "./mypage/BookmarkPages";
 
+const GET_USER_ID = gql`
+query GetUserId {
+  getUserId
+}
+`;
+
 const Mypage = () => {
+
+  const { data, loading, error } =  useQuery(GET_USER_ID);
+  const userId = data?.getUserId;
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
@@ -70,8 +80,8 @@ const Mypage = () => {
 
           <BookmarkTitle />
           <hr className="hr"/>
-          <BookmarkUserInfo />
-          <BookmarkPages />
+          <BookmarkUserInfo user={userId} />
+          <BookmarkPages user={userId}/>
         </Wrapper>
     );
 };
