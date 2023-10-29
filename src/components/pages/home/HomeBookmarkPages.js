@@ -10,8 +10,8 @@ import HomeBookmarkFolder from './HomeBookmarkFolder';
 import HomeBookmarkList from './HomeBookmarkList';
 
 const GET_MYPAGE = gql`
-  query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
-    getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+  query getSharedListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getSharedListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
       folders {
         id
         folderName
@@ -28,8 +28,8 @@ const GET_MYPAGE = gql`
 `;
 
 const GET_MYPAGE_BASE = gql`
-  query getMyPage($user_id: Float!) {
-    getMyPage(user_id: $user_id) {
+  query getSharedPage($user_id: Float!) {
+    getSharedPage(user_id: $user_id) {
       folders {
         id
         folderName
@@ -67,10 +67,10 @@ const HomeBookmarkPages = () => {
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getMyPage);
-        const thisFolder = res.data?.getMyPage.folders.filter(item => item.parentFolderName === null);
+        console.log(res.data?.getSharedPage);
+        const thisFolder = res.data?.getSharedPage.folders.filter(item => item.parentFolderName === null);
         setFolderList(thisFolder);
-        const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
+        const thisBookmark = res.data?.getSharedPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
 
         setLoading(false);
@@ -90,9 +90,9 @@ const HomeBookmarkPages = () => {
         fetchPolicy: 'no-cache'
       })
       .then((res) => {
-        console.log(res.data?.getAllListByParentFolderName);
-        setFolderList(res.data?.getAllListByParentFolderName.folders);
-        setBookmarkList(res.data?.getAllListByParentFolderName.bookmarks);
+        console.log(res.data?.getSharedListByParentFolderName);
+        setFolderList(res.data?.getSharedListByParentFolderName.folders);
+        setBookmarkList(res.data?.getSharedListByParentFolderName.bookmarks);
         setLoading(false);
       })
       .catch((err) => {
