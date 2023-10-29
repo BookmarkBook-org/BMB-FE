@@ -12,6 +12,7 @@ import LoginUserInfo from "./components/pages/login/LoginUserInfo";
 import LoginBookmark from "./components/pages/login/LoginBookmark";
 import LoginMoreInfo from "./components/pages/login/LoginMoreInfo";
 import LoginGoogle from "./components/pages/login/LoginGoogle";
+import LoginRedirectHandler from "./components/pages/login/LoginRedirectHandler";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/setting" element={<Setting />} />
             <Route path="/login" element={<Login />}>
               <Route path="/login" element={<LoginGoogle />} />
+              <Route path="/login/callback" element={<LoginRedirectHandler />} />
               <Route path="/login/user" element={<LoginUserInfo />} />
               <Route path="/login/upload" element={<LoginBookmark />} />
               <Route path="/login/more" element={<LoginMoreInfo />} />
