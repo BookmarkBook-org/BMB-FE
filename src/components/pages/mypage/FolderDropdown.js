@@ -19,16 +19,17 @@ const FolderDropdown = ({index}) => {
     console.log(index, "changeName");
   }
   const removeItem =()=>{
+    console.log(index);
     client 
     .mutate({
       mutation: DELETE_FOLDER,
       variables: {
-       folder_id: index
+       folder_id: parseFloat(index)
       },
       fetchPolicy: 'no-cache'
     })
     .then((res) => {
-      console.log(index, res.data);
+      console.log(res.data);
       window.location.reload(); // 폴더 삭제 후 새로고침하여 목록 다시 불러옴
     })
     .catch((err) => {
@@ -38,9 +39,9 @@ const FolderDropdown = ({index}) => {
 
     return (
       <Wrapper>
-        <ListItem onClick={changeView}>북마크 공개</ListItem>
-        <ListItem onClick={changeName}>북마크 이름 변경</ListItem>
-        <ListItem onClick={removeItem}>북마크 삭제</ListItem>
+        <ListItem onClick={changeView}>폴더 공개</ListItem>
+        <ListItem onClick={changeName}>폴더 이름 변경</ListItem>
+        <ListItem onClick={removeItem}>폴더 삭제</ListItem>
       </Wrapper>
     );
 };
