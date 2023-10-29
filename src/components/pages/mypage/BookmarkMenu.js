@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { client } from "../../../client";
+
+const GET_USER_ID = gql`
+query GetUserId {
+  getUserId
+}
+`;
 
 const CREATE_BOOKMARK = gql`
   mutation createBookmark($create_bookmark_input: createBookmarkInput!, $user_id: Float!) {
@@ -16,6 +22,9 @@ mutation createFolder($create_folder_input: createFolderInput!, $user_id: Float!
 `;
 
 const BookmarkMenu = ({ items }) => {
+
+  const { data, loading, error } =  useQuery(GET_USER_ID);
+  const userId = data?.getUserId;
 
   // 모달창 부분
   const [isModalOpen, setModalOpen] = useState(false);
@@ -62,7 +71,7 @@ const BookmarkMenu = ({ items }) => {
           "url": inputUrl,
           "parentFolderName": parentFolderName
         },
-        "user_id": 5
+        "user_id": userId
       },
       fetchPolicy: 'no-cache'
     })
@@ -91,7 +100,7 @@ const BookmarkMenu = ({ items }) => {
           "parentFolderName": parentFolderName,
           "isShared": true
         },
-        "user_id": 5
+        "user_id": userId
       },
       fetchPolicy: 'no-cache'
     })
