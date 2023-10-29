@@ -17,14 +17,7 @@ const LoginGoogle = () => {
   }, []);
 
   const handleLogin = () => {
-    // 서버의 Google OAuth 인증 엔드포인트로 리디렉션
-    window.location.href = "http://localhost:3000/auth/google"; // 이 URL은 실제 서버의 엔드포인트에 맞게 조정
-    const accessToken = getCookie('accessToken');
-    const refreshToken = getCookie('refreshToken');
-
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-
+    window.location.href = "http://localhost:3000/auth/google";
   };
 
   return (
