@@ -1,9 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
 
-const HomeUserInfo = () => {
-  const [nickname, setNickname] = useState("유저5");
-  const [introduction, setIntroduction] = useState("안녕하세요");
+const GET_USERINFO = gql`
+  query getUserInfo($user_id: Float!) {
+    getUserInfo(user_id: $user_id) {
+      id
+      nickname
+      selfIntroduction
+    }
+  }
+`;
+
+const HomeUserInfo = (props) => {
+
+  const { user } = props;
+
+  const [nickname, setNickname] = useState();
+  const [introduction, setIntroduction] = useState();
+
+  useEffect(() => {
+    client
+    .query({
+      query: GET_USERINFO,
+      variables: {
+        user_id: user
+      },
+      fetchPolicy: 'no-cache'
+    })
+    .then((res) => {
+      const thisUser = res.data?.getUserInfo;
+      setNickname(thisUser.nickname);
+      setIntroduction(thisUser.selfIntroduction);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [user])
+
   return (
     <Wrapper>
       <p className="title">{nickname}</p>

@@ -3,10 +3,26 @@ import styled from "styled-components";
 import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
 
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
+
+const GET_MYPAGE = gql`
+  query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+      }
+    }
+  }
+`;
+
 const BookmarkFolder = ({ items }) => {
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 레이어 상태
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const [bookmarkCounts, setBookmarkCounts] = useState({});
 
   const toggleItem = (index) => {
@@ -39,7 +55,7 @@ const BookmarkFolder = ({ items }) => {
             query: GET_MYPAGE,
             variables: {
               parent_folder_name: item.folderName,
-              user_id: 1,
+              user_id: 5,
             },
             fetchPolicy: 'no-cache',
           });

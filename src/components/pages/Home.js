@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
+import { gql,  useQuery } from "@apollo/client";
 
 import HomeTitle from './home/HomeTitle';
 import HomeUserInfo from './home/HomeUserInfo';
 import HomeBookmarkPages from './home/HomeBookmarkPages';
 
 const Home = () => {
+    const GET_USER_ID = gql`
+    query GetUserId {
+      getUserId
+    }
+  `;
+    const { data, loading, error } =  useQuery(GET_USER_ID);
+    const userId = data?.getUserId;
+
+    const [randUser, setRandUser] = useState(userId);
 
     // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
     const navigate = useNavigate();
@@ -16,7 +26,7 @@ const Home = () => {
         if (!isLoggedin) {
         navigate('/login');
         }
-
+        setRandUser(userId);
     }, [navigate]);
 
     return (
@@ -69,10 +79,10 @@ const Home = () => {
                 />
             </Helmet>
 
-            <HomeTitle />
+            <HomeTitle randUser={randUser} setRandUser={setRandUser}/>
             <hr className="hr"/>
-            <HomeUserInfo />
-            <HomeBookmarkPages />
+            <HomeUserInfo user={randUser}/>
+            <HomeBookmarkPages user={randUser}/>
         </Wrapper>
     );
 };

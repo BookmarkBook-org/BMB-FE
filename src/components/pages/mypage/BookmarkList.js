@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
+
+const GET_MYPAGE = gql`
+  query getSharedListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getSharedListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+      }
+    }
+  }
+`;
+
 const BookmarkList = ({ items }) => {
 
   const moveUrl = (url) => {
