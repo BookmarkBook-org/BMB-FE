@@ -59,7 +59,6 @@ const HomeBookmarkPages = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    console.log(user);
     if(folderName === '전체 북마크'){
       client
       .query({

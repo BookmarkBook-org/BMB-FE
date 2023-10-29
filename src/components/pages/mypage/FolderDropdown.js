@@ -40,6 +40,7 @@ const FolderDropdown = ({index}) => {
     })
     .then((res) => {
       console.log(res.data?.changeFolderStatus);
+      window.location.reload();
     })
     .catch((err) => {
       console.log(err);
