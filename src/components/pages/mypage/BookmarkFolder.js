@@ -2,8 +2,28 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
+import { client } from "../../../client";
+import { gql } from "@apollo/client";
 
 const BookmarkFolder = ({ items }) => {
+
+  const GET_MYPAGE = gql`
+  query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+      folders {
+        id
+        folderName
+        parentFolderName
+      }
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+      }
+    }
+  }
+`;
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 레이어 상태
