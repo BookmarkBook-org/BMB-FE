@@ -22,6 +22,7 @@ const Home = () => {
     // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
     const navigate = useNavigate();
     useEffect(() => {
+      console.log(userId);
         const isLoggedin = document.cookie.includes('loggedIn=true');
         if (!isLoggedin) {
         navigate('/login');
