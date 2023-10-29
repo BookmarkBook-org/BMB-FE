@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const HomeTitle = () => {
+const HomeTitle = (props) => {
+  const {randUser, setRandUser} = props;
 
   const otherUser = () =>{
-    // 다른 유저의 북마크 보기
+    const min = 1;
+    const max = 10;
+    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
+    setRandUser(randomInt);
   }
 
     return (
@@ -13,7 +17,7 @@ const HomeTitle = () => {
           <button className="btn-others" onClick={()=>otherUser()} >
             <div className="button-cont">
               다음 유저의 북마크 보기
-              <img className="img-btn-others" src="/assets/images/ic_next_btn.png" />
+              <img className="img-btn-others" src="/assets/images/ic_next_btn.png" onClick={otherUser} />
             </div>
           </button>
         </Wrapper>
