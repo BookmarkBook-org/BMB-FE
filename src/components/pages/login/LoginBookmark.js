@@ -59,10 +59,8 @@ const LoginBookmark = () => {
           }
           if (line.trim().startsWith('<DT><A HREF')) {
 
-            const linkName = line.trim().match(/<A[^>]*>([^<]+)<\/A>/)[1];
-
             const linkUrl = line.trim().match(/HREF="([^"]+)"/)[1];
-            
+            const linkName = line.trim().match(/<A[^>]*>([^<]+)<\/A>/);
 
             const nowFolderPath = folderPath.slice(1).join('/');
 

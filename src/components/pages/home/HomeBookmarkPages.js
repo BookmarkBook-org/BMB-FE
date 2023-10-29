@@ -1,16 +1,107 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
+import { gql } from '@apollo/client';
+import { client } from "../../../client";
 
 import HomeBookmarkMenu from './HomeBookmarkMenu';
 import HomeBookmarkFolder from './HomeBookmarkFolder';
 import HomeBookmarkList from './HomeBookmarkList';
 
+const GET_MYPAGE = gql`
+  query getSharedListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
+    getSharedListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
+      folders {
+        id
+        folderName
+        parentFolderName
+      }
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+      }
+    }
+  }
+`;
+
+const GET_MYPAGE_BASE = gql`
+  query getSharedPage($user_id: Float!) {
+    getSharedPage(user_id: $user_id) {
+      folders {
+        id
+        folderName
+        parentFolderName
+      }
+      bookmarks {
+        id
+        title
+        url
+        parentFolderName
+        createdAt
+      }
+    }
+  }
+`;
+
 const HomeBookmarkPages = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const folder = query.get('folder') || '전체 북마크';
+  const folderName = query.get('folder') || '전체 북마크';
+
+  const [ folderList, setFolderList ] = useState([]);
+  const [ bookmarkList, setBookmarkList ] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
+  useEffect(() => {
+    setLoading(true);
+    if(folderName === '전체 북마크'){
+      client
+      .query({
+        query: GET_MYPAGE_BASE,
+        variables: {
+          user_id: 5
+        },
+        fetchPolicy: 'no-cache'
+      })
+      .then((res) => {
+        console.log(res.data?.getSharedPage);
+        const thisFolder = res.data?.getSharedPage.folders.filter(item => item.parentFolderName === null);
+        setFolderList(thisFolder);
+        const thisBookmark = res.data?.getSharedPage.bookmarks.filter(item => item.parentFolderName === null);
+        setBookmarkList(thisBookmark);
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+    } else{
+      client
+      .query({
+        query: GET_MYPAGE,
+        variables: {
+          parent_folder_name: folderName,
+          user_id: 5
+        },
+        fetchPolicy: 'no-cache'
+      })
+      .then((res) => {
+        console.log(res.data?.getSharedListByParentFolderName);
+        setFolderList(res.data?.getSharedListByParentFolderName.folders);
+        setBookmarkList(res.data?.getSharedListByParentFolderName.bookmarks);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+    }
+
+  }, [folderName])
 
   return (
     <Wrapper>
@@ -62,9 +153,17 @@ const HomeBookmarkPages = () => {
         />
       </Helmet>
 
-      <HomeBookmarkMenu folder={folder} />
-      <HomeBookmarkFolder folder={folder} />
-      <HomeBookmarkList folder={folder} />
+      {loading ? ( 
+        <div>
+
+        </div>
+      ) : (
+        <div>
+      <HomeBookmarkMenu items={folderName} />
+      <HomeBookmarkFolder items={folderList} />
+      <HomeBookmarkList items={bookmarkList} />
+      </div>
+      )}
     </Wrapper>
     );
 };
