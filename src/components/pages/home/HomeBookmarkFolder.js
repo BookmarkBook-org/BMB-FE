@@ -18,7 +18,7 @@ const GET_MYPAGE = gql`
   }
 `;
 
-const HomeBookmarkFolder = ({ items }) => {
+const HomeBookmarkFolder = ({ items, userId }) => {
 
   const navigate = useNavigate();
   const moveFolder = (folderName) => {
@@ -36,7 +36,7 @@ const HomeBookmarkFolder = ({ items }) => {
             query: GET_MYPAGE,
             variables: {
               parent_folder_name: item.folderName,
-              user_id: 5,
+              user_id: userId,
             },
             fetchPolicy: 'no-cache',
           });

@@ -21,6 +21,7 @@ const LoginMoreInfo = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useOutletContext();
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [userInfo, setUserInfo] = useState('');
   const { data, loading, error } = useQuery(GET_USER_ID);
   const userId = data?.getUserId;
 
@@ -45,7 +46,7 @@ const LoginMoreInfo = () => {
           mutation: WRITE_SELF_INTRO,
           variables: {
             user_id: userId,
-            self_intro: "test",
+            self_intro: userInfo,
           },
           fetchPolicy: "no-cache",
         })
@@ -76,6 +77,7 @@ const LoginMoreInfo = () => {
           <textarea
             className="txtarea-intro"
             placeholder="운영하고 있는 인스타그램, 링크드인, 브런치 주소를 알려주세요."
+            onChange={(e) => { setUserInfo(e.target.value); }}
           />
           <div className="chkbox-agree">
             <label>

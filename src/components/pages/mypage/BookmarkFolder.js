@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FolderDropdown from "./FolderDropdown";
 import { useNavigate } from "react-router-dom";
-import { gql } from '@apollo/client';
+import { gql,  useQuery } from "@apollo/client";
 import { client } from "../../../client";
 
 const GET_MYPAGE = gql`
@@ -18,7 +18,7 @@ const GET_MYPAGE = gql`
   }
 `;
 
-const BookmarkFolder = ({ items }) => {
+const BookmarkFolder = ({ items, userId }) => {
   
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
@@ -55,7 +55,7 @@ const BookmarkFolder = ({ items }) => {
             query: GET_MYPAGE,
             variables: {
               parent_folder_name: item.folderName,
-              user_id: 5,
+              user_id: userId,
             },
             fetchPolicy: 'no-cache',
           });

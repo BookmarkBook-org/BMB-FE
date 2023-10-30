@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { client } from "../../../client";
 
 import BookmarkMenu from './BookmarkMenu';
@@ -46,9 +46,7 @@ const GET_MYPAGE_BASE = gql`
   }
 `;
 
-const BookmarkPages = (props) => {
-
-  const { user } = props;
+const BookmarkPages = ({userId}) => {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -59,13 +57,14 @@ const BookmarkPages = (props) => {
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
+    console.log("북마크페이지 폴더 유저")
     setLoading(true);
     if(folderName === '전체 북마크'){
       client
       .query({
         query: GET_MYPAGE_BASE,
         variables: {
-          user_id: 5
+          user_id: userId
         },
         fetchPolicy: 'no-cache'
       })
@@ -87,7 +86,7 @@ const BookmarkPages = (props) => {
         query: GET_MYPAGE,
         variables: {
           parent_folder_name: folderName,
-          user_id: 5
+          user_id: userId
         },
         fetchPolicy: 'no-cache'
       })
@@ -102,7 +101,7 @@ const BookmarkPages = (props) => {
       });
     }
 
-  }, [folderName])
+  }, [folderName, userId])
 
   return (
     <Wrapper>
@@ -161,7 +160,7 @@ const BookmarkPages = (props) => {
       ) : (
         <div>
           <BookmarkMenu items={folderName} />
-          <BookmarkFolder items={folderList} />
+          <BookmarkFolder items={folderList} userId={userId} />
           <BookmarkList items={bookmarkList} />
         </div>
       )}
