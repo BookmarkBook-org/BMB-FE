@@ -28,10 +28,10 @@ const LoginRedirectHandler = () => {
 
   }, [navigate]);
 
-  if (loggedIn === "true") {
+  if (loggedIn === "false") {
     return navigate("/login/user");
   } else {
-    return navigate("/login");
+    return navigate("/");
   }
 };
 
