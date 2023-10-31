@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginRedirectHandler = () => {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     function getCookie(name) {
@@ -22,11 +23,16 @@ const LoginRedirectHandler = () => {
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
     }
+
+    setLoggedIn(getCookie("loggedIn"));
+
   }, [navigate]);
 
-  return   (
-   navigate("/login/user")
-  )
+  if (loggedIn === "true") {
+    return navigate("/login/user");
+  } else {
+    return navigate("/login");
+  }
 };
 
 export default LoginRedirectHandler;
