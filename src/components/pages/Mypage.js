@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
@@ -9,7 +9,7 @@ import BookmarkUserInfo from "./mypage/BookmarkUserInfo";
 import BookmarkPages from "./mypage/BookmarkPages";
 
 const GET_USER_ID = gql`
-query GetUserId {
+query getUserId {
   getUserId
 }
 `;
@@ -17,16 +17,22 @@ query GetUserId {
 const Mypage = () => {
 
   const { data, loading, error } =  useQuery(GET_USER_ID);
-  const userId = data?.getUserId;
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
+
+
   useEffect(() => {
     const isLoggedin = document.cookie.includes('loggedIn=true');
     if (!isLoggedin) {
       navigate('/login');
     }
   }, [navigate]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  const userId = data?.getUserId;
 
     return (
         <Wrapper>

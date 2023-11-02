@@ -15,20 +15,24 @@ const Home = () => {
     }
   `;
     const { data, loading, error } =  useQuery(GET_USER_ID);
-    const userId = data?.getUserId;
-
-    const [randUser, setRandUser] = useState(userId);
+    const [userId, setUserId] = useState(data?.getUserId);
 
     // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
     const navigate = useNavigate();
     useEffect(() => {
-      console.log(userId);
         const isLoggedin = document.cookie.includes('loggedIn=true');
         if (!isLoggedin) {
         navigate('/login');
         }
-        setRandUser(userId);
     }, [navigate]);
+
+    useEffect(() => {
+      setUserId(data?.getUserId);
+  }, [data]);
+
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
 
     return (
         <Wrapper>
@@ -80,10 +84,10 @@ const Home = () => {
                 />
             </Helmet>
 
-            <HomeTitle randUser={randUser} setRandUser={setRandUser}/>
+            <HomeTitle randUser={userId} setRandUser={setUserId}/>
             <hr className="hr"/>
-            <HomeUserInfo user={randUser}/>
-            <HomeBookmarkPages user={randUser}/>
+            <HomeUserInfo user={userId}/>
+            <HomeBookmarkPages user={userId}/>
         </Wrapper>
     );
 };

@@ -9,12 +9,6 @@ import BookmarkMenu from './BookmarkMenu';
 import BookmarkFolder from './BookmarkFolder';
 import BookmarkList from './BookmarkList';
 
-const GET_USER_ID = gql`
-query GetUserId {
-  getUserId
-}
-`;
-
 const GET_MYPAGE = gql`
   query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
     getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
@@ -64,9 +58,6 @@ const BookmarkPages = (props) => {
   const [ bookmarkList, setBookmarkList ] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
-  const { data, loading2, error } =  useQuery(GET_USER_ID);
-  const userId = data?.getUserId;
-
   useEffect(() => {
     setLoading(true);
     if(folderName === '전체 북마크'){
@@ -74,7 +65,7 @@ const BookmarkPages = (props) => {
       .query({
         query: GET_MYPAGE_BASE,
         variables: {
-          user_id: userId
+          user_id: user
         },
         fetchPolicy: 'no-cache'
       })
@@ -83,7 +74,7 @@ const BookmarkPages = (props) => {
         setFolderList(thisFolder);
         const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
-
+        console.log('BookmarkPages.js: ', thisFolder, thisBookmark);
         setLoading(false);
       })
       .catch((err) => {
@@ -96,7 +87,7 @@ const BookmarkPages = (props) => {
         query: GET_MYPAGE,
         variables: {
           parent_folder_name: folderName,
-          user_id: userId
+          user_id: user
         },
         fetchPolicy: 'no-cache'
       })
@@ -104,6 +95,7 @@ const BookmarkPages = (props) => {
         setFolderList(res.data?.getAllListByParentFolderName.folders);
         setBookmarkList(res.data?.getAllListByParentFolderName.bookmarks);
         setLoading(false);
+        console.log('BookmarkPages.js: ', res.data?.getAllListByParentFolderName.folders, res.data?.getAllListByParentFolderName.bookmarks);
       })
       .catch((err) => {
         console.log(err);

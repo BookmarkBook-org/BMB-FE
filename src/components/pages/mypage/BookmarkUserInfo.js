@@ -22,6 +22,7 @@ const BookmarkUserInfo = (props) => {
   const [introduction, setIntroduction] = useState("안녕하세요.");
 
   useEffect(() => {
+    console.log('BookmarkUserInfo.js', user);
     client
     .query({
       query: GET_USERINFO,
@@ -32,6 +33,7 @@ const BookmarkUserInfo = (props) => {
     })
     .then((res) => {
       const thisUser = res.data?.getUserInfo;
+      console.log('BookmarkUserInfo.js: thisUser: ', thisUser);
       setNickname(thisUser.nickname);
       setIntroduction(thisUser.selfIntroduction);
     })
