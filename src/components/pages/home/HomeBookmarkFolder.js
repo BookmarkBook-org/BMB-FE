@@ -28,6 +28,7 @@ const HomeBookmarkFolder = ({ items, userId }) => {
   const [bookmarkCounts, setBookmarkCounts] = useState({});
 
   useEffect(() => {
+    console.log(items);
     const fetchBookmarkCounts = async () => {
       const counts = {};
       for (const item of items) {
