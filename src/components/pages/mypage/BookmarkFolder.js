@@ -18,7 +18,7 @@ const GET_MYPAGE = gql`
   }
 `;
 
-const BookmarkFolder = ({ items }) => {
+const BookmarkFolder = ({ items, userId }) => {
   
   const navigate = useNavigate();
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
@@ -48,7 +48,6 @@ const BookmarkFolder = ({ items }) => {
 
   useEffect(() => {
     const fetchBookmarkCounts = async () => {
-      const storedUserId = localStorage.getItem('userId');
       const counts = {};
       for (const item of items) {
         try {
@@ -56,7 +55,7 @@ const BookmarkFolder = ({ items }) => {
             query: GET_MYPAGE,
             variables: {
               parent_folder_name: item.folderName,
-              user_id: 32,
+              user_id: userId,
             },
             fetchPolicy: 'no-cache',
           });

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { client } from "../../../client";
 
 import BookmarkMenu from './BookmarkMenu';
@@ -46,9 +46,7 @@ const GET_MYPAGE_BASE = gql`
   }
 `;
 
-const BookmarkPages = (props) => {
-
-  const { user } = props;
+const BookmarkPages = ({userId}) => {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -65,7 +63,7 @@ const BookmarkPages = (props) => {
       .query({
         query: GET_MYPAGE_BASE,
         variables: {
-          user_id: user
+          user_id: userId
         },
         fetchPolicy: 'no-cache'
       })
@@ -74,7 +72,7 @@ const BookmarkPages = (props) => {
         setFolderList(thisFolder);
         const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
-        console.log('BookmarkPages.js: ', thisFolder, thisBookmark);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -87,7 +85,7 @@ const BookmarkPages = (props) => {
         query: GET_MYPAGE,
         variables: {
           parent_folder_name: folderName,
-          user_id: user
+          user_id: userId
         },
         fetchPolicy: 'no-cache'
       })
@@ -95,15 +93,13 @@ const BookmarkPages = (props) => {
         setFolderList(res.data?.getAllListByParentFolderName.folders);
         setBookmarkList(res.data?.getAllListByParentFolderName.bookmarks);
         setLoading(false);
-        console.log('BookmarkPages.js: ', res.data?.getAllListByParentFolderName.folders, res.data?.getAllListByParentFolderName.bookmarks);
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
     }
-
-  }, [folderName])
+  }, [folderName, userId])
 
   return (
     <Wrapper>
@@ -162,7 +158,7 @@ const BookmarkPages = (props) => {
       ) : (
         <div>
           <BookmarkMenu items={folderName} />
-          <BookmarkFolder items={folderList} />
+          <BookmarkFolder items={folderList} userId={userId} />
           <BookmarkList items={bookmarkList} />
         </div>
       )}

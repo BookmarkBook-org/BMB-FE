@@ -74,6 +74,9 @@ const HomeBookmarkPages = (props) => {
         const thisBookmark = res.data?.getSharedPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
 
+        console.log(thisFolder);
+        console.log(thisBookmark);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -160,7 +163,7 @@ const HomeBookmarkPages = (props) => {
       ) : (
         <div>
       <HomeBookmarkMenu items={folderName} />
-      <HomeBookmarkFolder items={folderList} />
+      <HomeBookmarkFolder userId={user} items={folderList} />
       <HomeBookmarkList items={bookmarkList} />
       </div>
       )}

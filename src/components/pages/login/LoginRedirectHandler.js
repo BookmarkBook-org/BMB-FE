@@ -33,6 +33,7 @@ const LoginRedirectHandler = () => {
   } else {
     return navigate("/");
   }
+
 };
 
 export default LoginRedirectHandler;

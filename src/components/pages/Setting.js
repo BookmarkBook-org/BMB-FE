@@ -17,14 +17,12 @@ const DELETE_USER = gql`
   }
 `;
 
-
 const Setting = () => {
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
   const { data, loading, error } = useQuery(GET_USER_ID);
   const userId = data?.getUserId;
-
 
   useEffect(() => {
     const isLoggedin = document.cookie.includes('loggedIn=true');
@@ -39,7 +37,6 @@ const Setting = () => {
     navigate('/login');
   }
   const userDelete = () =>{
-    
     client
       .mutate({
         mutation: DELETE_USER,
