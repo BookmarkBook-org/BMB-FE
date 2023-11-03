@@ -9,6 +9,12 @@ import BookmarkMenu from './BookmarkMenu';
 import BookmarkFolder from './BookmarkFolder';
 import BookmarkList from './BookmarkList';
 
+const GET_USER_ID = gql`
+query GetUserId {
+  getUserId
+}
+`;
+
 const GET_MYPAGE = gql`
   query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
     getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
@@ -55,6 +61,9 @@ const BookmarkPages = ({userId}) => {
   const [ folderList, setFolderList ] = useState([]);
   const [ bookmarkList, setBookmarkList ] = useState([]);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
+  const { data, loading2, error } =  useQuery(GET_USER_ID);
+  const userId = data?.getUserId;
 
   useEffect(() => {
     console.log("북마크페이지 폴더 유저")
