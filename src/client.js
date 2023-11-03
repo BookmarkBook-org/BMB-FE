@@ -1,12 +1,10 @@
-import { ApolloClient, InMemoryCache, HttpLink, ApolloLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, HttpLink, ApolloLink, fromPromise, from} from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 
-const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql' });
+const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`});
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  // 토큰을 로컬 스토리지에서 가져옵니다.
   const token = localStorage.getItem('accessToken');
-
-  // 요청의 헤더에 인증 토큰을 추가합니다.
   operation.setContext({
     headers: {
       authorization: token ? `Bearer ${token}` : '',
@@ -16,7 +14,49 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+  if (graphQLErrors) {
+    for (let err of graphQLErrors) {
+      switch (err.extensions?.code) {
+        case 'UNAUTHENTICATED':
+          return fromPromise(
+            fetch('/auth/refresh', {
+              method: 'POST',
+              credentials: 'include',
+            }).then(response => {
+              if (response.ok) {
+                return response.json();
+              } else{
+              localStorage.removeItem('accessToken');
+              window.location.href = '/login';
+              return Promise.reject(new Error('Failed to refresh token'));
+              }
+            })
+            .catch((error) => {
+              localStorage.removeItem('accessToken');
+              window.location.href = '/login';
+              return Promise.reject(error);
+              })
+          )
+            .flatMap((refreshedResponse) => {
+            const newAccessToken = refreshedResponse.accessToken;
+            localStorage.setItem('accessToken', newAccessToken);
+
+            operation.setContext(({ headers = {} }) => ({
+              headers: {
+                ...headers,
+                authorization: `Bearer ${newAccessToken}`,
+              }
+            }));
+
+            return forward(operation);
+          });
+      }
+    }
+  }
+});
+
 export const client = new ApolloClient({
-  link: authMiddleware.concat(httpLink),
+  link: from([errorLink, authMiddleware, httpLink]),
   cache: new InMemoryCache(),
 });

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { client } from "../../../client";
 
 import BookmarkMenu from './BookmarkMenu';
@@ -72,6 +72,7 @@ const BookmarkPages = ({userId}) => {
         setFolderList(thisFolder);
         const thisBookmark = res.data?.getMyPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -98,7 +99,6 @@ const BookmarkPages = ({userId}) => {
         setLoading(false);
       });
     }
-
   }, [folderName, userId])
 
   return (

@@ -45,7 +45,6 @@ const BookmarkUserInfo = ({userId}) => {
       setIntroduction(thisUser.selfIntroduction);
     })
     .catch((err) => {
-      console.log(userId);
       console.log(err);
     });
   }, [])
@@ -61,6 +60,7 @@ const BookmarkUserInfo = ({userId}) => {
   };
 
   const handleNicknameChange = (e) => {
+
     setNickname(e.target.value);
 
     client
@@ -97,7 +97,6 @@ const BookmarkUserInfo = ({userId}) => {
     .catch((err) => {
       console.log(err);
     });
-
   };
 
   return (

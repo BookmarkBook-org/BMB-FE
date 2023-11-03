@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from "styled-components";
@@ -15,14 +15,12 @@ query GetUserId {
 `;
 
 const Mypage = () => {
-
-  const { data, loadings, error, refetch } = useQuery(GET_USER_ID);
+  const { data, loadings, error } = useQuery(GET_USER_ID);
   const userId = data?.getUserId;
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("mypage")
     const isLoggedin = document.cookie.includes('loggedIn=true');
     if (!isLoggedin) {
       navigate('/login');

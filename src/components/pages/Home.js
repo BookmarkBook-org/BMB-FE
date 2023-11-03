@@ -79,7 +79,6 @@ const Home = () => {
                 href="%PUBLIC_URL%/assets/images/ic_logo.png"
                 />
             </Helmet>
-
             <HomeTitle randUser={randUser} setRandUser={setRandUser}/>
             <hr className="hr"/>
             <HomeUserInfo user={randUser}/>

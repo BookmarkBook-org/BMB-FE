@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
-import { gql,  useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { client } from "../../../client";
 
 const INFO_BOOKMARK = gql`
@@ -69,7 +69,7 @@ const BookmarkList = ({ items }) => {
           const resUrl = res.data?.getBookmarkInfo.imageUrl;
           images[item.id] = resUrl;
         } catch (err) {
-          //console.log(item.title, item.url);
+          // console.log(err);
         }
       }
       setBookmarkUrl(images);
