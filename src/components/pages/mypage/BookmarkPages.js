@@ -52,9 +52,7 @@ const GET_MYPAGE_BASE = gql`
   }
 `;
 
-const BookmarkPages = (props) => {
-
-  const { user } = props;
+const BookmarkPages = ({userId}) => {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -68,6 +66,7 @@ const BookmarkPages = (props) => {
   const userId = data?.getUserId;
 
   useEffect(() => {
+    console.log("북마크페이지 폴더 유저")
     setLoading(true);
     if(folderName === '전체 북마크'){
       client
@@ -111,7 +110,7 @@ const BookmarkPages = (props) => {
       });
     }
 
-  }, [folderName])
+  }, [folderName, userId])
 
   return (
     <Wrapper>
@@ -170,7 +169,7 @@ const BookmarkPages = (props) => {
       ) : (
         <div>
           <BookmarkMenu items={folderName} />
-          <BookmarkFolder items={folderList} />
+          <BookmarkFolder items={folderList} userId={userId} />
           <BookmarkList items={bookmarkList} />
         </div>
       )}

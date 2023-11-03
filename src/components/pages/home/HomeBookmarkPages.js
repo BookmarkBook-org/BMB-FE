@@ -160,7 +160,7 @@ const HomeBookmarkPages = (props) => {
       ) : (
         <div>
       <HomeBookmarkMenu items={folderName} />
-      <HomeBookmarkFolder items={folderList} />
+      <HomeBookmarkFolder userId={user} items={folderList} />
       <HomeBookmarkList items={bookmarkList} />
       </div>
       )}

@@ -12,21 +12,30 @@ const GET_USERINFO = gql`
     }
   }
 `;
+const UPDATE_USER_NICKNAME = gql`
+  mutation UpdateUserNickname($user_id: Float!, $nickname: String!) {
+    updateUserNickname(user_id: $user_id, nickname: $nickname)
+  }
+`;
+const WRITE_SELF_INTRO = gql`
+mutation WriteSelfIntro($user_id: Float!, $self_intro: String!) {
+  writeSelfIntro(user_id: $user_id, self_intro: $self_intro)
+}
+`;
 
-const BookmarkUserInfo = (props) => {
-
-  const { user } = props;
+const BookmarkUserInfo = ({userId}) => {
 
   const [isEditing, setIsEditing] = useState(false);
-  const [nickname, setNickname] = useState("북마크북");
-  const [introduction, setIntroduction] = useState("안녕하세요.");
+  const [nickname, setNickname] = useState("");
+  const [introduction, setIntroduction] = useState("");
 
   useEffect(() => {
+    console.log(userId)
     client
     .query({
       query: GET_USERINFO,
       variables: {
-        user_id: user
+        user_id: userId
       },
       fetchPolicy: 'no-cache'
     })
@@ -36,6 +45,7 @@ const BookmarkUserInfo = (props) => {
       setIntroduction(thisUser.selfIntroduction);
     })
     .catch((err) => {
+      console.log(userId);
       console.log(err);
     });
   }, [])
@@ -52,9 +62,42 @@ const BookmarkUserInfo = (props) => {
 
   const handleNicknameChange = (e) => {
     setNickname(e.target.value);
+
+    client
+    .mutate({
+      mutation: UPDATE_USER_NICKNAME,
+      variables: {
+        user_id: userId,
+        nickname: nickname
+      },
+      fetchPolicy: 'no-cache'
+    })
+    .then((res) => {
+      console.log(res.data?.updateUserNickname);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
   const handleIntroductionChange = (e) => {
     setIntroduction(e.target.value);
+
+    client
+    .mutate({
+      mutation: WRITE_SELF_INTRO,
+      variables: {
+        user_id: userId,
+        self_intro: introduction,
+      },
+      fetchPolicy: "no-cache",
+    })
+    .then((res) => {
+      console.log(res.data?.writeSelfIntro);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   };
 
   return (
