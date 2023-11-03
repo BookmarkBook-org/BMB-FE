@@ -5,12 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { gql, useQuery } from '@apollo/client';
 import { client } from "../../../client";
 
-const GET_USER_ID = gql`
-query GetUserId {
-  getUserId
-}
-`;
-
 const GET_MYPAGE = gql`
   query getAllListByParentFolderName($parent_folder_name: String!, $user_id: Float!) {
     getAllListByParentFolderName(parent_folder_name: $parent_folder_name, user_id: $user_id) {
@@ -30,9 +24,6 @@ const BookmarkFolder = ({ items, userId }) => {
   const [itemToggles, setItemToggles] = useState(Array(items.length).fill(false));
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [bookmarkCounts, setBookmarkCounts] = useState({});
-
-  const { data, loading, error } =  useQuery(GET_USER_ID);
-  const userId = data?.getUserId;
 
   const toggleItem = (index) => {
     const newToggles = [...itemToggles];

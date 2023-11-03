@@ -74,6 +74,9 @@ const HomeBookmarkPages = (props) => {
         const thisBookmark = res.data?.getSharedPage.bookmarks.filter(item => item.parentFolderName === null);
         setBookmarkList(thisBookmark);
 
+        console.log(thisFolder);
+        console.log(thisBookmark);
+
         setLoading(false);
       })
       .catch((err) => {
