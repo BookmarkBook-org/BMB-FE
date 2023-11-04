@@ -51,6 +51,9 @@ const Setting = () => {
       .catch((err) => {
         console.log(err);
       });
+      alert("회원탈퇴가 완료되었습니다.");
+      document.cookie = 'loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      navigate('/login');
   }
   return (
     <Wrapper>

@@ -9,14 +9,13 @@ import BookmarkUserInfo from "./mypage/BookmarkUserInfo";
 import BookmarkPages from "./mypage/BookmarkPages";
 
 const GET_USER_ID = gql`
-query GetUserId {
+query getUserId {
   getUserId
 }
 `;
 
 const Mypage = () => {
-  const { data, loadings, error } = useQuery(GET_USER_ID);
-  const userId = data?.getUserId;
+  const { data, loading, error } = useQuery(GET_USER_ID);
 
   // 쿠키 확인 후 로그인되어있지 않으면 /login으로 리다이렉트
   const navigate = useNavigate();
@@ -26,6 +25,11 @@ const Mypage = () => {
       navigate('/login');
     }
   }, [navigate]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  const userId = data?.getUserId;
 
     return (
         <Wrapper>

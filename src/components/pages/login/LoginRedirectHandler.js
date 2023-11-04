@@ -1,39 +1,32 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const LoginRedirectHandler = () => {
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isRegisteredIn, setIsRegisteredIn] = useState(false);
 
   useEffect(() => {
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    }
+      const hash = window.location.hash.substr(1);
+      const params = new URLSearchParams(hash);
+      const accessToken = params.get("accessToken");
+      const refreshToken = params.get("refreshToken");
+      const registeredIn = params.get("registeredIn") === "true";
+      console.log(accessToken, refreshToken, registeredIn);
 
-    const accessToken = getCookie("accessToken");
-    const refreshToken = getCookie("refreshToken");
-
-    console.log(accessToken, refreshToken);
-
-    if (accessToken) {
+      if(accessToken || refreshToken || registeredIn) {
       localStorage.setItem("accessToken", accessToken);
-    }
-    if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("registeredIn", registeredIn);
+      setIsRegisteredIn(registeredIn);
+      }
+    }, []);
+    if (!isRegisteredIn) {
+      return navigate("/login/user");
+    } else {
+      Cookies.set("loggedIn", "true");
+      return navigate("/");
     }
-
-    setLoggedIn(getCookie("loggedIn"));
-
-  }, [navigate]);
-
-  if (loggedIn === "false") {
-    return navigate("/login/user");
-  } else {
-    return navigate("/");
-  }
-
 };
 
 export default LoginRedirectHandler;
